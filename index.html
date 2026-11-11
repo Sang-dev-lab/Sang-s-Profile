@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="rainbow">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phan Nguyễn Thanh Sang - Chí Tôn Vũ Trụ</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================
+           1. CSS VARIABLES & THEMES
+           ========================================== */
+        :root {
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --bg-color: #0b0716;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --rainbow-grad: linear-gradient(135deg, #ff007f, #7928ca, #00dfd8, #ff007f);
+            --glow-color: rgba(0, 223, 216, 0.3);
+        }
+
+        [data-theme="cyberpunk"] {
+            --bg-color: #050510;
+            --card-bg: rgba(255, 0, 128, 0.05);
+            --card-border: rgba(0, 240, 255, 0.25);
+            --rainbow-grad: linear-gradient(135deg, #ff0055, #00f0ff, #ffe600, #ff0055);
+            --glow-color: rgba(255, 0, 85, 0.4);
+        }
+
+        [data-theme="gold"] {
+            --bg-color: #0f0c05;
+            --card-bg: rgba(255, 215, 0, 0.05);
+            --card-border: rgba(255, 215, 0, 0.25);
+            --rainbow-grad: linear-gradient(135deg, #ffe066, #f59e0b, #d97706, #ffe066);
+            --glow-color: rgba(245, 158, 11, 0.4);
+        }
+
+        [data-theme="cosmic"] {
+            --bg-color: #03001e;
+            --card-bg: rgba(115, 3, 192, 0.08);
+            --card-border: rgba(224, 86, 36, 0.25);
+            --rainbow-grad: linear-gradient(135deg, #7303c0, #ec38bc, #fdeff9, #7303c0);
+            --glow-color: rgba(236, 56, 188, 0.4);
+        }
+
+        /* ==========================================
+           2. BASE & RESET
+           ========================================== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.4s ease;
+        }
+
+        canvas#starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .app-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* ==========================================
+           3. THEME SWITCHER BAR
+           ========================================== */
+        .theme-switcher-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            padding: 10px 20px;
+            border-radius: 50px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-right: 8px;
+        }
+
+        .theme-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 6px 14px;
+            border-radius: 20px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover, .theme-btn.active {
+            background: var(--card-bg);
+            border-color: var(--card-border);
+            box-shadow: 0 0 12px var(--glow-color);
+        }
+
+        /* ==========================================
+           4. HERO SECTION
+           ========================================== */
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px 40px;
+            margin-bottom: 40px;
+        }
+
+        .avatar-box {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            background: var(--rainbow-grad);
+            background-size: 200% 200%;
+            animation: gradientShift 6s ease infinite;
+            padding: 4px;
+            box-shadow: 0 0 30px var(--glow-color);
+        }
+
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+
+        .hero-name {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: var(--rainbow-grad);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 5s linear infinite;
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .badge-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .badge-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        /* ==========================================
+           5. CARDS & SECTIONS
+           ========================================== */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            background: var(--rainbow-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 28px;
+            backdrop-filter: blur(16px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 12px 30px var(--glow-color);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            color: #00dfd8;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ==========================================
+           6. KẾT NỐI VỚI CHÍ TÔN (RAINBOW GRADIENT)
+           ========================================== */
+        .contact-box {
+            text-align: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 45px 24px;
+            backdrop-filter: blur(16px);
+        }
+
+        .contact-title-rainbow {
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin-bottom: 14px;
+            display: inline-block;
+            background: linear-gradient(135deg, #ff007f, #9b51e0, #00dfd8, #ffeb3b, #ff007f);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbowFlow 6s linear infinite;
+        }
+
+        .contact-sub {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.15) rotate(6deg);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* ==========================================
+           7. CLICK HELLO KITTY POPUP EFFECT
+           ========================================== */
+        .hello-kitty-click {
+            position: fixed;
+            pointer-events: none !important;
+            z-index: 99999 !important;
+            transform: translate(-50%, -50%);
+            animation: kittyFloatUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) FORWARDS;
+        }
+
+        .kitty-svg {
+            width: 65px;
+            height: 65px;
+            filter: drop-shadow(0 0 12px rgba(255, 105, 180, 0.9));
+        }
+
+        @keyframes kittyFloatUp {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.3) rotate(-15deg);
+            }
+            50% {
+                transform: translate(-50%, -90px) scale(1.1) rotate(10deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -150px) scale(0.8) rotate(0deg);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes rainbowFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Starfield Background -->
+    <canvas id="starfield"></canvas>
+
+    <div class="app-container">
+
+        <!-- Theme Switcher -->
+        <div class="theme-switcher-wrapper">
+            <span class="theme-title"><i class="fa-solid fa-palette"></i> Giao Diện:</span>
+            <button class="theme-btn active" onclick="setTheme('rainbow', this)">Cầu Vồng</button>
+            <button class="theme-btn" onclick="setTheme('cyberpunk', this)">Cyberpunk</button>
+            <button class="theme-btn" onclick="setTheme('gold', this)">Hội Hoàng Kim</button>
+            <button class="theme-btn" onclick="setTheme('cosmic', this)">Vũ Trụ Huyền Bí</button>
+        </div>
+
+        <!-- Hero Section -->
+        <header class="hero-section">
+            <div class="avatar-box">
+                <div class="avatar-inner">👑</div>
+            </div>
+            <h1 class="hero-name">Phan Nguyễn Thanh Sang</h1>
+            <p class="hero-sub">Chí Tôn Vũ Trụ • Thống Nhất Các Chiều Không Gian • Thôn Tính Thiên Hạ</p>
+            <div class="badge-list">
+                <span class="badge-item">✨ Tu Qua Vô Số Kiếm Luân Hồi</span>
+                <span class="badge-item">🌌 Nơi Ở: Thiên Hà Linh Khí</span>
+                <span class="badge-item">🌈 Sức Mạnh Cầu Vồng Tối Thượng</span>
+            </div>
+        </header>
+
+        <!-- Kỹ Năng -->
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-bolt"></i> Kỹ Năng Bá Chủ</h2>
+            <div class="grid-layout">
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-globe"></i></div>
+                    <h3 class="card-title">Thôn Tính Thiên Hạ</h3>
+                    <p class="card-desc">Cả vũ trụ nằm gọn trong tầm tay, điều khiển và định hình trật tự thế giới.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-door-open"></i></div>
+                    <h3 class="card-title">Du Hành Đa Chiều</h3>
+                    <p class="card-desc">Di chuyển tự do giữa các chiều không gian khác nhau dễ dàng như đi chợ.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-atom"></i></div>
+                    <h3 class="card-title">Thay Đổi Khái Niệm</h3>
+                    <p class="card-desc">Cấu trúc lại quy luật vật lý, thay đổi nền tảng cốt lõi của vũ trụ.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-utensils"></i></div>
+                    <h3 class="card-title">Sức Chứa Vô Hạn</h3>
+                    <p class="card-desc">Thưởng thức 10,000,000,000 cái bánh bao cùng một lúc mà không gặp giới hạn.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-rainbow"></i></div>
+                    <h3 class="card-title">Năng Lượng Cầu Vồng</h3>
+                    <p class="card-desc">Bộc phá năng lượng quang phổ rực rỡ để chinh phục toàn bộ thiên hạ.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3 class="card-title">Thao Túng Tuyệt Đối</h3>
+                    <p class="card-desc">Thao túng tâm lý, ý thức và bất kỳ thực thể nào tồn tại trong đa không gian.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dự Án Tiêu Biểu -->
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-diagram-project"></i> Dự Án Kiến Tạo</h2>
+            <div class="grid-layout">
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-burst"></i></div>
+                    <h3 class="card-title">Khởi Tạo Thiên Hà</h3>
+                    <p class="card-desc">Xây dựng và vận hành vô số hệ thống thiên hà mới trong khoảng không hư vô.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                    <h3 class="card-title">Sinh Khái Niệm</h3>
+                    <p class="card-desc">Tạo ra các khái niệm cơ bản cấu thành nên sự tồn tại của vũ trụ hiện tại.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <h3 class="card-title">Cân Bằng Sinh Tử</h3>
+                    <p class="card-desc">Duy trì cán cân sinh tử tuyệt đối, giữ trật tự cho toàn bộ sinh linh.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-language"></i></div>
+                    <h3 class="card-title">Hệ Thống Ngôn Ngữ</h3>
+                    <p class="card-desc">Sáng tạo và phân bố các phương thức giao tiếp trên mọi hành tinh.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-seedling"></i></div>
+                    <h3 class="card-title">Kiến Tạo Sự Sống</h3>
+                    <p class="card-desc">Gieo mầm và nuôi dưỡng sự sống đầu tiên xuất hiện trong đa vũ trụ.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Học Vấn -->
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-graduation-cap"></i> Tri Thức Chí Tôn</h2>
+            <div class="grid-layout">
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
+                    <h3 class="card-title">Thông Hiểu Ngôn Ngữ</h3>
+                    <p class="card-desc">Nắm rõ và thông thạo toàn bộ ngôn ngữ vì chính bản thân là người sáng tạo ra chúng.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-infinity"></i></div>
+                    <h3 class="card-title">Thông Hiểu Khái Niệm</h3>
+                    <p class="card-desc">Sở hữu tri thức toàn vẹn vì chính bản thân là người định nghĩa ra tất cả khái niệm tồn tại.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-eye"></i></div>
+                    <h3 class="card-title">Toàn Tri Vũ Trụ</h3>
+                    <p class="card-desc">Thấu thị quá quá khứ, hiện tại và tương lai. Biết rõ mọi sự kiện diễn ra ở bất kỳ cõi không gian nào.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Liên Hệ -->
+        <section class="contact-box">
+            <h2 class="contact-title-rainbow">Kết Nối Với Chí Tôn</h2>
+            <p class="contact-sub">Dù bạn ở chiều không gian nào, các kênh truyền tin dưới đây luôn sẵn sàng kết nối.</p>
+            <div class="social-links">
+                <a href="#" class="social-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-btn" title="Discord"><i class="fa-brands fa-discord"></i></a>
+                <a href="#" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-btn" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" class="social-btn" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="social-btn" title="GitHub"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </section>
+
+        <footer>
+            © 2026 Phan Nguyễn Thanh Sang. Bản quyền thuộc về Chí Tôn Vũ Trụ.
+        </footer>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        /* ==========================================
+           1. STARFIELD CANVAS ANIMATION
+           ========================================== */
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const stars = Array.from({ length: 140 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2 + 0.5,
+            speedY: Math.random() * 0.4 + 0.1,
+            opacity: Math.random()
+        }));
+
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                star.y -= star.speedY;
+                if (star.y < 0) {
+                    star.y = canvas.height;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        /* ==========================================
+           2. THEME SWITCHER LOGIC
+           ========================================== */
+        function setTheme(themeName, btnElement) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+        }
+
+        /* ==========================================
+           3. CLICK HELLO KITTY POPUP EFFECT (PRECISE VECTOR SVG)
+           ========================================== */
+        window.addEventListener('click', function(e) {
+            const kitty = document.createElement('div');
+            kitty.className = 'hello-kitty-click';
+            kitty.style.left = e.clientX + 'px';
+            kitty.style.top = e.clientY + 'px';
+
+            // SVG Vector sắc nét 100% theo đúng ảnh mẫu
+            kitty.innerHTML = `
+                <svg class="kitty-svg" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Head & Ears -->
+                    <path d="M 40 90 C 20 40, 60 20, 80 40 C 110 30, 150 30, 170 45 C 190 25, 220 50, 195 90 C 225 130, 180 180, 120 175 C 60 180, 20 135, 40 90 Z" fill="#ffffff" stroke="#2b2b2b" stroke-width="4"/>
+                    <!-- Eyes -->
+                    <ellipse cx="85" cy="115" rx="7" ry="11" fill="#333333"/>
+                    <ellipse cx="155" cy="115" rx="7" ry="11" fill="#333333"/>
+                    <!-- Nose -->
+                    <ellipse cx="120" cy="130" rx="8" ry="6" fill="#fbc02d"/>
+                    <!-- Whiskers Left -->
+                    <line x1="30" y1="110" x2="65" y2="114" stroke="#444444" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="25" y1="128" x2="63" y2="128" stroke="#444444" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="32" y1="146" x2="66" y2="140" stroke="#444444" stroke-width="4" stroke-linecap="round"/>
+                    <!-- Whiskers Right -->
+                    <line x1="175" y1="110" x2="140" y2="114" stroke="#444444" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="180" y1="128" x2="142" y2="128" stroke="#444444" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="173" y1="146" x2="139" y2="140" stroke="#444444" stroke-width="4" stroke-linecap="round"/>
+                    <!-- Bow (Pink) -->
+                    <circle cx="160" cy="55" r="14" fill="#e91e63" stroke="#2b2b2b" stroke-width="3"/>
+                    <path d="M 160 55 C 130 35, 130 75, 160 55 Z" fill="#e91e63" stroke="#2b2b2b" stroke-width="3"/>
+                    <path d="M 160 55 C 190 35, 190 75, 160 55 Z" fill="#e91e63" stroke="#2b2b2b" stroke-width="3"/>
+                    <!-- Body & Overalls -->
+                    <path d="M 70 165 L 170 165 L 180 220 C 180 235, 60 235, 60 220 Z" fill="#0277bd" stroke="#2b2b2b" stroke-width="4"/>
+                    <!-- Buttons -->
+                    <circle cx="90" cy="180" r="6" fill="#ffffff"/>
+                    <circle cx="150" cy="180" r="6" fill="#ffffff"/>
+                    <!-- Striped Sleeves -->
+                    <path d="M 50 165 C 40 180, 60 200, 75 190 Z" fill="#e91e63"/>
+                    <path d="M 190 165 C 200 180, 180 200, 165 190 Z" fill="#e91e63"/>
+                </svg>
+            `;
+
+            document.body.appendChild(kitty);
+
+            setTimeout(() => {
+                kitty.remove();
+            }, 1200);
+        }, true);
+    </script>
+</body>
+</html>
