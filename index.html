@@ -427,56 +427,31 @@
        // ... giữ nguyên phần trên ...
 
         // ==========================================
-        // 1. HELLO KITTY IMAGE POPUP ON CLICK
         // ==========================================
-        const helloKittyImgSrc = 'https://play-lh.googleusercontent.com/APwRN8ro2TcgWiI8mpMGfUFkg_oY6ilAxtYF0kd0LLSTDmjIq6BDHm2nX7nTAtELxJcmT7hcRmL5iqk1DFxZFg'; // Đường dẫn ảnh từ thư mục images/
+        // 1. HELLO KITTY IMAGE URL POPUP ON CLICK
+        // ==========================================
+        // 👉 Dán đường link (URL) hình ảnh Hello Kitty của bạn vào giữa cặp dấu nháy đơn bên dưới:
+        const helloKittyImgUrl = 'https://play-lh.googleusercontent.com/APwRN8ro2TcgWiI8mpMGfUFkg_oY6ilAxtYF0kd0LLSTDmjIq6BDHm2nX7nTAtELxJcmT7hcRmL5iqk1DFxZFg';
 
         // Lắng nghe click capture ở window cấp độ cao nhất
         window.addEventListener('click', function(e) {
-            // Tạo phần tử chứa ảnh Hello Kitty pop up
+            // Tạo phần tử Hello Kitty pop up
             const kitty = document.createElement('div');
             kitty.className = 'kitty-popup-item';
             kitty.style.left = e.clientX + 'px';
             kitty.style.top = e.clientY + 'px';
 
-            // Nhúng trực tiếp hình ảnh bạn đã gửi
+            // Nhúng ảnh từ URL với hiệu ứng bo góc & viền phát sáng
             kitty.innerHTML = `
-                <img src="${helloKittyImgSrc}" 
+                <img src="${helloKittyImgUrl}" 
                      alt="Hello Kitty" 
-                     style="width: 68px; height: 68px; object-fit: cover; border-radius: 16px; box-shadow: 0 0 15px rgba(255, 105, 180, 0.85); border: 2px solid rgba(255, 255, 255, 0.8);" />
+                     style="width: 68px; height: 68px; object-fit: cover; border-radius: 16px; border: 2px solid rgba(255, 255, 255, 0.85); box-shadow: 0 0 16px rgba(255, 105, 180, 0.9);"
+                     onerror="this.style.display='none'" />
             `;
 
             document.body.appendChild(kitty);
 
-            // Thêm các trái tim và ngôi sao nhỏ bay xung quanh (giữ nguyên hiệu ứng cũ)
-            const symbols = ['💖', '✨', '🌈', '⭐'];
-            for (let i = 0; i < 4; i++) {
-                const spark = document.createElement('div');
-                spark.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-                spark.style.position = 'fixed';
-                spark.style.left = (e.clientX + (Math.random() * 70 - 35)) + 'px';
-                spark.style.top = (e.clientY + (Math.random() * 70 - 35)) + 'px';
-                spark.style.fontSize = (14 + Math.random() * 10) + 'px';
-                spark.style.pointerEvents = 'none';
-                spark.style.zIndex = '999999';
-                spark.style.transition = 'all 1s ease-out';
-                spark.style.opacity = '1';
-
-                document.body.appendChild(spark);
-
-                setTimeout(() => {
-                    spark.style.transform = `translate(${Math.random() * 60 - 30}px, -60px) scale(1.4)`;
-                    spark.style.opacity = '0';
-                }, 20);
-
-                setTimeout(() => spark.remove(), 1000);
-            }
-
-            // Xoá Kitty sau khi animation kết thúc
-            setTimeout(() => {
-                kitty.remove();
-            }, 1200);
-        }, true);
+            // ... giữ nguyên phần code tạo hiệu ứng sao bay (symbols) và setTimeout bên dưới ...
 
         // ... giữ nguyên phần THEME SWITCHER & STARFIELD bên dưới ...
         // 2. THEME SWITCHER LOGIC
