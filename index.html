@@ -150,7 +150,7 @@
 
     <!-- Canvas Starfield Dynamic Background -->
     <canvas id="starfield" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
-    <!-- Canvas Sparkle & Ribbon Cursor Trail -->
+    <!-- Canvas Star Sparkles On Cursor Move -->
     <canvas id="cursor-trail-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-[999998]"></canvas>
 
     <!-- Ambient Glowing Orbs -->
@@ -495,16 +495,16 @@
         }, true);
 
         // ==========================================
-        // 2. ON-DEMAND CURSOR TRAIL (ZERO IDLE COST)
+        // 2. DAZZLING STAR SPARKLES (NO RIBBON, SMOOTH ON-DEMAND)
         // ==========================================
         const trailCanvas = document.getElementById('cursor-trail-canvas');
         const trailCtx = trailCanvas.getContext('2d', { alpha: true });
 
         const themePalettes = {
-            'neon-rainbow': ['#ff007f', '#ff7f00', '#ffe600', '#00ff87', '#00e5ff', '#b55cff'],
-            'pastel-dream': ['#ff9a9e', '#fecfef', '#a1c4fd', '#c2e9fb', '#e0c3fc', '#fff0f5'],
-            'cyberpunk-pink': ['#ff007f', '#00f0ff', '#ffe600', '#ff2a85', '#7000ff', '#00ffa3'],
-            'gold-cosmic': ['#fff3b0', '#ffd166', '#f59e0b', '#fbbf24', '#fff8dc', '#ff9f1c']
+            'neon-rainbow': ['#ff007f', '#ff7f00', '#ffe600', '#00ff87', '#00e5ff', '#c084fc', '#ffffff'],
+            'pastel-dream': ['#ff9a9e', '#fecfef', '#a1c4fd', '#c2e9fb', '#e0c3fc', '#fff0f5', '#ffffff'],
+            'cyberpunk-pink': ['#ff007f', '#00f0ff', '#ffe600', '#ff2a85', '#9d4edd', '#00ffa3', '#ffffff'],
+            'gold-cosmic': ['#fff3b0', '#ffd166', '#f59e0b', '#fbbf24', '#fff8dc', '#ff9f1c', '#ffffff']
         };
 
         function getActivePalette() {
@@ -526,114 +526,120 @@
         window.addEventListener('resize', resizeTrailCanvas, { passive: true });
         resizeTrailCanvas();
 
-        const ribbonPoints = [];
-        const sparkleParticles = [];
-        const MAX_RIBBON = 14;
-        const MAX_SPARKLES = 42;
-        let rafId = null;
-        let lastSpawn = 0;
+        const starParticles = [];
+        const MAX_STARS = 85;
+        let starRafId = null;
+        let lastStarSpawn = 0;
 
-        function startTrailLoop() {
-            if (rafId === null) {
-                rafId = requestAnimationFrame(renderCursorTrail);
+        function startStarLoop() {
+            if (starRafId === null) {
+                starRafId = requestAnimationFrame(renderStarSparkles);
             }
         }
 
-        function spawnSparkles(x, y, count) {
+        function spawnStarBurst(x, y, count) {
             const palette = getActivePalette();
             for (let i = 0; i < count; i++) {
-                if (sparkleParticles.length >= MAX_SPARKLES) {
-                    sparkleParticles.shift();
+                if (starParticles.length >= MAX_STARS) {
+                    starParticles.shift();
                 }
                 const angle = Math.random() * Math.PI * 2;
-                const speed = 0.3 + Math.random() * 1.1;
-                sparkleParticles.push({
-                    x: x + (Math.random() * 14 - 7),
-                    y: y + (Math.random() * 14 - 7),
+                const speed = 0.35 + Math.random() * 1.9;
+                const isFourPoint = Math.random() < 0.58;
+                starParticles.push({
+                    x: x + (Math.random() * 26 - 13),
+                    y: y + (Math.random() * 26 - 13),
                     vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed - (0.3 + Math.random() * 0.7),
-                    r: 2 + Math.random() * 3.5,
+                    vy: Math.sin(angle) * speed - (0.35 + Math.random() * 0.95),
+                    size: isFourPoint ? (4.5 + Math.random() * 7.5) : (1.6 + Math.random() * 3.4),
                     color: palette[Math.floor(Math.random() * palette.length)],
                     alpha: 1,
-                    decay: 0.045 + Math.random() * 0.025
+                    decay: 0.026 + Math.random() * 0.022,
+                    twinklePhase: Math.random() * Math.PI * 2,
+                    twinkleSpeed: 0.16 + Math.random() * 0.18,
+                    isFourPoint: isFourPoint,
+                    tilt: (Math.random() - 0.5) * 0.35
                 });
             }
         }
 
         window.addEventListener('mousemove', function(e) {
-            const palette = getActivePalette();
-            ribbonPoints.push({
-                x: e.clientX,
-                y: e.clientY,
-                color: palette[ribbonPoints.length % palette.length],
-                alpha: 0.65
-            });
-            if (ribbonPoints.length > MAX_RIBBON) {
-                ribbonPoints.shift();
-            }
-
             const now = performance.now();
-            if (now - lastSpawn >= 36) {
-                lastSpawn = now;
-                spawnSparkles(e.clientX, e.clientY, 2);
+            if (now - lastStarSpawn >= 24) {
+                lastStarSpawn = now;
+                spawnStarBurst(e.clientX, e.clientY, 5);
             }
-
-            startTrailLoop();
+            startStarLoop();
         }, { passive: true });
 
-        function renderCursorTrail() {
+        function drawSparkleStar(ctx2d, s, scaleFactor) {
+            const rOuter = s.size * scaleFactor;
+            const rInner = rOuter * 0.24;
+            const cos = Math.cos(s.tilt);
+            const sin = Math.sin(s.tilt);
+
+            const pts = [
+                [0, -rOuter],
+                [rInner, -rInner],
+                [rOuter, 0],
+                [rInner, rInner],
+                [0, rOuter],
+                [-rInner, rInner],
+                [-rOuter, 0],
+                [-rInner, -rInner]
+            ];
+
+            ctx2d.beginPath();
+            for (let i = 0; i < pts.length; i++) {
+                const px = s.x + pts[i][0] * cos - pts[i][1] * sin;
+                const py = s.y + pts[i][0] * sin + pts[i][1] * cos;
+                if (i === 0) ctx2d.moveTo(px, py);
+                else ctx2d.lineTo(px, py);
+            }
+            ctx2d.closePath();
+            ctx2d.fill();
+        }
+
+        function renderStarSparkles() {
             trailCtx.clearRect(0, 0, trailW, trailH);
+            trailCtx.globalCompositeOperation = 'lighter';
 
-            for (let i = ribbonPoints.length - 1; i >= 0; i--) {
-                ribbonPoints[i].alpha -= 0.065;
-                if (ribbonPoints[i].alpha <= 0.02) {
-                    ribbonPoints.splice(i, 1);
-                }
-            }
+            for (let i = starParticles.length - 1; i >= 0; i--) {
+                const s = starParticles[i];
+                s.x += s.vx;
+                s.y += s.vy;
+                s.vx *= 0.96;
+                s.vy *= 0.96;
+                s.twinklePhase += s.twinkleSpeed;
+                s.alpha -= s.decay;
 
-            for (let i = 1; i < ribbonPoints.length; i++) {
-                const prev = ribbonPoints[i - 1];
-                const curr = ribbonPoints[i];
-                const ratio = i / ribbonPoints.length;
-                trailCtx.beginPath();
-                trailCtx.moveTo(prev.x, prev.y);
-                trailCtx.lineTo(curr.x, curr.y);
-                trailCtx.strokeStyle = curr.color;
-                trailCtx.globalAlpha = Math.max(0, curr.alpha * ratio);
-                trailCtx.lineWidth = Math.max(1.5, ratio * 5);
-                trailCtx.lineCap = 'round';
-                trailCtx.stroke();
-            }
-
-            for (let i = sparkleParticles.length - 1; i >= 0; i--) {
-                const p = sparkleParticles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.alpha -= p.decay;
-                if (p.alpha <= 0) {
-                    sparkleParticles.splice(i, 1);
+                if (s.alpha <= 0) {
+                    starParticles.splice(i, 1);
                     continue;
                 }
 
-                trailCtx.globalAlpha = Math.max(0, p.alpha);
-                trailCtx.fillStyle = p.color;
+                const twinkle = 0.65 + 0.35 * Math.sin(s.twinklePhase);
+                const finalAlpha = Math.max(0, Math.min(1, s.alpha * twinkle));
+                trailCtx.globalAlpha = finalAlpha;
+                trailCtx.fillStyle = s.color;
 
-                // Tia sáng lấp lánh nhẹ 2 gạch chéo/ngang + tâm sáng
-                const arm = p.r * 2.2;
-                trailCtx.fillRect(p.x - arm, p.y - 0.7, arm * 2, 1.4);
-                trailCtx.fillRect(p.x - 0.7, p.y - arm, 1.4, arm * 2);
-                trailCtx.beginPath();
-                trailCtx.arc(p.x, p.y, p.r * 0.7, 0, Math.PI * 2);
-                trailCtx.fill();
+                if (s.isFourPoint) {
+                    drawSparkleStar(trailCtx, s, 0.75 + 0.45 * twinkle);
+                } else {
+                    trailCtx.beginPath();
+                    trailCtx.arc(s.x, s.y, s.size * twinkle, 0, Math.PI * 2);
+                    trailCtx.fill();
+                }
             }
 
+            trailCtx.globalCompositeOperation = 'source-over';
             trailCtx.globalAlpha = 1;
 
-            if (ribbonPoints.length > 0 || sparkleParticles.length > 0) {
-                rafId = requestAnimationFrame(renderCursorTrail);
+            if (starParticles.length > 0) {
+                starRafId = requestAnimationFrame(renderStarSparkles);
             } else {
                 trailCtx.clearRect(0, 0, trailW, trailH);
-                rafId = null;
+                starRafId = null;
             }
         }
 
