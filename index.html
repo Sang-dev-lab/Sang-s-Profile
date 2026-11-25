@@ -111,6 +111,34 @@
             pointer-events: none;
         }
 
+        /* LUXURY GPU CURSOR AURA & SPARKLES */
+        #cursor-aura {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 34px;
+            height: 34px;
+            margin-left: -17px;
+            margin-top: -17px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999998;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,0,127,0.45) 45%, rgba(0,240,255,0.18) 70%, transparent 100%);
+            box-shadow: 0 0 18px rgba(255, 0, 127, 0.7), 0 0 32px rgba(0, 240, 255, 0.45);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            will-change: transform;
+        }
+
+        .cursor-sparkle-gpu {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999998;
+            line-height: 1;
+            will-change: transform, opacity;
+            transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease-out;
+        }
+
         /* HELLO KITTY POPUP PARTICLES */
         .kitty-popup-item {
             position: fixed;
@@ -167,8 +195,7 @@
 
     <!-- Canvas Starfield Dynamic Background -->
     <canvas id="starfield" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
-    <!-- Canvas Cursor Luxury Sparkle Trail -->
-    <canvas id="cursor-fx" class="fixed top-0 left-0 w-full h-full pointer-events-none z-[999998]"></canvas>
+    <div id="cursor-aura"></div>
 
     <!-- Ambient Glowing Orbs -->
     <div class="fixed top-10 left-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-[140px] pointer-events-none"></div>
@@ -508,144 +535,57 @@
         }, true);
 
         // ==========================================
-        // 1b. ULTRA-SMOOTH CURSOR TRAIL (ZERO-IDLE OVERHEAD)
+        // 1b. GPU-ACCELERATED LUXURY CURSOR TRAIL
         // ==========================================
-        const cursorCanvas = document.getElementById('cursor-fx');
-        const cursorCtx = cursorCanvas.getContext('2d');
-        const cursorRibbon = [];
-        const cursorSparkles = [];
-        const cosmicPalette = ['#ff007f', '#ffe600', '#00f0ff', '#a855f7', '#ffffff'];
-        const MAX_RIBBON_POINTS = 12;
-        const MAX_SPARKLES = 22;
-        let pointerPos = { x: -200, y: -200, visible: false, lastMove: 0 };
-        let rainbowHue = 0;
-        let lastSpawnTime = 0;
-        let cursorRafId = null;
-
-        function resizeCursorCanvas() {
-            cursorCanvas.width = window.innerWidth;
-            cursorCanvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCursorCanvas);
-        resizeCursorCanvas();
-
-        function startCursorLoop() {
-            if (!cursorRafId) {
-                cursorRafId = requestAnimationFrame(renderCursorEffects);
-            }
-        }
+        const cursorAura = document.getElementById('cursor-aura');
+        const luxurySymbols = ['✨', '💖', '🌈', '⭐', '💫'];
+        const MAX_GPU_SPARKLES = 18;
+        let lastLuxuryTime = 0;
+        let activeGpuSparkles = 0;
 
         window.addEventListener('mousemove', function(e) {
+            cursorAura.style.opacity = '1';
+            cursorAura.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+
             const now = performance.now();
-            pointerPos.x = e.clientX;
-            pointerPos.y = e.clientY;
-            pointerPos.visible = true;
-            pointerPos.lastMove = now;
+            if (now - lastLuxuryTime < 55 || activeGpuSparkles >= MAX_GPU_SPARKLES) return;
+            lastLuxuryTime = now;
+            activeGpuSparkles++;
 
-            if (now - lastSpawnTime < 40) {
-                startCursorLoop();
-                return;
-            }
-            lastSpawnTime = now;
+            const el = document.createElement('div');
+            el.className = 'cursor-sparkle-gpu';
+            const sym = luxurySymbols[Math.floor(Math.random() * luxurySymbols.length)];
+            const size = 15 + Math.random() * 9;
+            const startX = e.clientX + (Math.random() * 20 - 10);
+            const startY = e.clientY + (Math.random() * 20 - 10);
+            const driftX = Math.random() * 36 - 18;
+            const driftY = -(26 + Math.random() * 22);
+            const rot = Math.random() * 80 - 40;
 
-            cursorRibbon.push({ x: e.clientX, y: e.clientY, hue: rainbowHue });
-            if (cursorRibbon.length > MAX_RIBBON_POINTS) cursorRibbon.shift();
-            rainbowHue = (rainbowHue + 18) % 360;
+            el.innerText = sym;
+            el.style.left = '0px';
+            el.style.top = '0px';
+            el.style.fontSize = size + 'px';
+            el.style.textShadow = '0 0 10px rgba(255, 255, 255, 0.85), 0 0 18px rgba(255, 0, 127, 0.75)';
+            el.style.transform = `translate3d(${startX}px, ${startY}px, 0) scale(0.75)`;
+            el.style.opacity = '1';
 
-            if (cursorSparkles.length >= MAX_SPARKLES) cursorSparkles.shift();
-            const angle = Math.random() * Math.PI * 2;
-            const speed = 0.7 + Math.random() * 1.8;
-            cursorSparkles.push({
-                x: e.clientX + (Math.random() * 10 - 5),
-                y: e.clientY + (Math.random() * 10 - 5),
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed - 0.5,
-                r: 2.2 + Math.random() * 2.8,
-                color: cosmicPalette[Math.floor(Math.random() * cosmicPalette.length)],
-                alpha: 1,
-                isStar: Math.random() < 0.5
+            document.body.appendChild(el);
+
+            requestAnimationFrame(() => {
+                el.style.transform = `translate3d(${startX + driftX}px, ${startY + driftY}px, 0) rotate(${rot}deg) scale(1.2)`;
+                el.style.opacity = '0';
             });
 
-            startCursorLoop();
+            setTimeout(() => {
+                el.remove();
+                activeGpuSparkles = Math.max(0, activeGpuSparkles - 1);
+            }, 660);
         }, { passive: true });
 
         window.addEventListener('mouseleave', function() {
-            pointerPos.visible = false;
+            cursorAura.style.opacity = '0';
         });
-
-        function renderCursorEffects() {
-            cursorRafId = null;
-            if (document.hidden) return;
-
-            const now = performance.now();
-            if (now - pointerPos.lastMove > 180) {
-                pointerPos.visible = false;
-            }
-
-            cursorCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-
-            // 1. Vẽ dải lụa cầu vồng nối liền mượt mà
-            if (cursorRibbon.length > 1) {
-                for (let i = 1; i < cursorRibbon.length; i++) {
-                    const prev = cursorRibbon[i - 1];
-                    const curr = cursorRibbon[i];
-                    const ratio = i / cursorRibbon.length;
-
-                    cursorCtx.beginPath();
-                    cursorCtx.moveTo(prev.x, prev.y);
-                    cursorCtx.lineTo(curr.x, curr.y);
-                    cursorCtx.strokeStyle = `hsla(${curr.hue}, 100%, 65%, ${ratio * 0.8})`;
-                    cursorCtx.lineWidth = ratio * 6.5;
-                    cursorCtx.lineCap = 'round';
-                    cursorCtx.stroke();
-                }
-                cursorRibbon.shift();
-            }
-
-            // 2. Hào quang nhẹ quanh đầu chuột khi đang di chuyển
-            if (pointerPos.visible) {
-                cursorCtx.beginPath();
-                cursorCtx.arc(pointerPos.x, pointerPos.y, 14, 0, Math.PI * 2);
-                cursorCtx.fillStyle = 'rgba(255, 0, 127, 0.16)';
-                cursorCtx.fill();
-
-                cursorCtx.beginPath();
-                cursorCtx.arc(pointerPos.x, pointerPos.y, 4.5, 0, Math.PI * 2);
-                cursorCtx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-                cursorCtx.fill();
-            }
-
-            // 3. Hạt sáng & dấu sao lấp lánh bay tản nhẹ
-            for (let i = cursorSparkles.length - 1; i >= 0; i--) {
-                const p = cursorSparkles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.alpha -= 0.045;
-
-                if (p.alpha <= 0) {
-                    cursorSparkles.splice(i, 1);
-                    continue;
-                }
-
-                cursorCtx.globalAlpha = p.alpha;
-                cursorCtx.fillStyle = p.color;
-
-                if (p.isStar) {
-                    const s = p.r * 2.2;
-                    cursorCtx.fillRect(p.x - s, p.y - 1, s * 2, 2);
-                    cursorCtx.fillRect(p.x - 1, p.y - s, 2, s * 2);
-                } else {
-                    cursorCtx.beginPath();
-                    cursorCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    cursorCtx.fill();
-                }
-            }
-            cursorCtx.globalAlpha = 1;
-
-            if (pointerPos.visible || cursorRibbon.length > 0 || cursorSparkles.length > 0) {
-                cursorRafId = requestAnimationFrame(renderCursorEffects);
-            }
-        }
 
         // ==========================================
         // 2. THEME SWITCHER LOGIC
