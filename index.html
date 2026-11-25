@@ -495,7 +495,7 @@
         }, true);
 
         // ==========================================
-        // 2. DAZZLING STAR SPARKLES (NO RIBBON, SMOOTH ON-DEMAND)
+        // 2. DAZZLING STAR CLOUD (NO LINE, FAST GRADIENT GLOW, SMOOTH)
         // ==========================================
         const trailCanvas = document.getElementById('cursor-trail-canvas');
         const trailCtx = trailCanvas.getContext('2d', { alpha: true });
@@ -526,108 +526,112 @@
         window.addEventListener('resize', resizeTrailCanvas, { passive: true });
         resizeTrailCanvas();
 
-        const starParticles = [];
-        const MAX_STARS = 85;
-        let starRafId = null;
-        let lastStarSpawn = 0;
+        const starCloud = [];
+        const MAX_CLOUD_STARS = 140;
+        let cloudRafId = null;
+        let lastCloudSpawn = 0;
 
-        function startStarLoop() {
-            if (starRafId === null) {
-                starRafId = requestAnimationFrame(renderStarSparkles);
+        function startCloudLoop() {
+            if (cloudRafId === null) {
+                cloudRafId = requestAnimationFrame(renderStarCloud);
             }
         }
 
-        function spawnStarBurst(x, y, count) {
+        function spawnStarCloud(x, y, count) {
             const palette = getActivePalette();
             for (let i = 0; i < count; i++) {
-                if (starParticles.length >= MAX_STARS) {
-                    starParticles.shift();
+                if (starCloud.length >= MAX_CLOUD_STARS) {
+                    starCloud.shift();
                 }
                 const angle = Math.random() * Math.PI * 2;
-                const speed = 0.35 + Math.random() * 1.9;
-                const isFourPoint = Math.random() < 0.58;
-                starParticles.push({
-                    x: x + (Math.random() * 26 - 13),
-                    y: y + (Math.random() * 26 - 13),
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed - (0.35 + Math.random() * 0.95),
-                    size: isFourPoint ? (4.5 + Math.random() * 7.5) : (1.6 + Math.random() * 3.4),
+                const dist = Math.pow(Math.random(), 0.7) * 28;
+                const speed = 0.25 + Math.random() * 1.65;
+                const roll = Math.random();
+                const kind = roll < 0.42 ? 'star4' : (roll < 0.75 ? 'dot' : 'spark');
+
+                starCloud.push({
+                    x: x + Math.cos(angle) * dist,
+                    y: y + Math.sin(angle) * dist,
+                    vx: Math.cos(angle) * speed + (Math.random() - 0.5) * 0.6,
+                    vy: Math.sin(angle) * speed - (0.2 + Math.random() * 0.8),
+                    size: kind === 'star4' ? (5 + Math.random() * 9) : (kind === 'spark' ? (4 + Math.random() * 6) : (1.4 + Math.random() * 3.2)),
                     color: palette[Math.floor(Math.random() * palette.length)],
                     alpha: 1,
-                    decay: 0.026 + Math.random() * 0.022,
-                    twinklePhase: Math.random() * Math.PI * 2,
-                    twinkleSpeed: 0.16 + Math.random() * 0.18,
-                    isFourPoint: isFourPoint,
-                    tilt: (Math.random() - 0.5) * 0.35
+                    decay: 0.02 + Math.random() * 0.022,
+                    phase: Math.random() * Math.PI * 2,
+                    phaseSpeed: 0.14 + Math.random() * 0.2,
+                    kind: kind
                 });
             }
         }
 
         window.addEventListener('mousemove', function(e) {
             const now = performance.now();
-            if (now - lastStarSpawn >= 24) {
-                lastStarSpawn = now;
-                spawnStarBurst(e.clientX, e.clientY, 5);
+            if (now - lastCloudSpawn >= 18) {
+                lastCloudSpawn = now;
+                spawnStarCloud(e.clientX, e.clientY, 9);
             }
-            startStarLoop();
+            startCloudLoop();
         }, { passive: true });
 
-        function drawSparkleStar(ctx2d, s, scaleFactor) {
-            const rOuter = s.size * scaleFactor;
-            const rInner = rOuter * 0.24;
-            const cos = Math.cos(s.tilt);
-            const sin = Math.sin(s.tilt);
-
-            const pts = [
-                [0, -rOuter],
-                [rInner, -rInner],
-                [rOuter, 0],
-                [rInner, rInner],
-                [0, rOuter],
-                [-rInner, rInner],
-                [-rOuter, 0],
-                [-rInner, -rInner]
-            ];
-
+        function drawFourPointStarFast(ctx2d, x, y, rOuter) {
+            const rInner = rOuter * 0.22;
             ctx2d.beginPath();
-            for (let i = 0; i < pts.length; i++) {
-                const px = s.x + pts[i][0] * cos - pts[i][1] * sin;
-                const py = s.y + pts[i][0] * sin + pts[i][1] * cos;
-                if (i === 0) ctx2d.moveTo(px, py);
-                else ctx2d.lineTo(px, py);
-            }
+            ctx2d.moveTo(x, y - rOuter);
+            ctx2d.lineTo(x + rInner, y - rInner);
+            ctx2d.lineTo(x + rOuter, y);
+            ctx2d.lineTo(x + rInner, y + rInner);
+            ctx2d.lineTo(x, y + rOuter);
+            ctx2d.lineTo(x - rInner, y + rInner);
+            ctx2d.lineTo(x - rOuter, y);
+            ctx2d.lineTo(x - rInner, y - rInner);
             ctx2d.closePath();
             ctx2d.fill();
         }
 
-        function renderStarSparkles() {
+        function renderStarCloud() {
             trailCtx.clearRect(0, 0, trailW, trailH);
             trailCtx.globalCompositeOperation = 'lighter';
 
-            for (let i = starParticles.length - 1; i >= 0; i--) {
-                const s = starParticles[i];
+            for (let i = starCloud.length - 1; i >= 0; i--) {
+                const s = starCloud[i];
                 s.x += s.vx;
                 s.y += s.vy;
                 s.vx *= 0.96;
                 s.vy *= 0.96;
-                s.twinklePhase += s.twinkleSpeed;
+                s.phase += s.phaseSpeed;
                 s.alpha -= s.decay;
 
                 if (s.alpha <= 0) {
-                    starParticles.splice(i, 1);
+                    starCloud.splice(i, 1);
                     continue;
                 }
 
-                const twinkle = 0.65 + 0.35 * Math.sin(s.twinklePhase);
-                const finalAlpha = Math.max(0, Math.min(1, s.alpha * twinkle));
-                trailCtx.globalAlpha = finalAlpha;
-                trailCtx.fillStyle = s.color;
+                const pulse = 0.65 + 0.45 * Math.sin(s.phase);
+                const a = Math.max(0, Math.min(1, s.alpha * pulse));
+                trailCtx.globalAlpha = a;
 
-                if (s.isFourPoint) {
-                    drawSparkleStar(trailCtx, s, 0.75 + 0.45 * twinkle);
-                } else {
+                if (s.kind === 'star4') {
+                    const r = s.size * (0.7 + 0.4 * pulse);
+                    const grad = trailCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r * 1.4);
+                    grad.addColorStop(0, '#ffffff');
+                    grad.addColorStop(0.35, s.color);
+                    grad.addColorStop(1, 'rgba(255,255,255,0)');
+                    trailCtx.fillStyle = grad;
+                    drawFourPointStarFast(trailCtx, s.x, s.y, r);
+                } else if (s.kind === 'spark') {
+                    const arm = s.size * (0.7 + 0.35 * pulse);
+                    trailCtx.fillStyle = s.color;
+                    trailCtx.fillRect(s.x - arm, s.y - 0.8, arm * 2, 1.6);
+                    trailCtx.fillRect(s.x - 0.8, s.y - arm, 1.6, arm * 2);
+                    trailCtx.fillStyle = '#ffffff';
                     trailCtx.beginPath();
-                    trailCtx.arc(s.x, s.y, s.size * twinkle, 0, Math.PI * 2);
+                    trailCtx.arc(s.x, s.y, 1.4, 0, Math.PI * 2);
+                    trailCtx.fill();
+                } else {
+                    trailCtx.fillStyle = s.color;
+                    trailCtx.beginPath();
+                    trailCtx.arc(s.x, s.y, s.size * (0.7 + 0.35 * pulse), 0, Math.PI * 2);
                     trailCtx.fill();
                 }
             }
@@ -635,11 +639,11 @@
             trailCtx.globalCompositeOperation = 'source-over';
             trailCtx.globalAlpha = 1;
 
-            if (starParticles.length > 0) {
-                starRafId = requestAnimationFrame(renderStarSparkles);
+            if (starCloud.length > 0) {
+                cloudRafId = requestAnimationFrame(renderStarCloud);
             } else {
                 trailCtx.clearRect(0, 0, trailW, trailH);
-                starRafId = null;
+                cloudRafId = null;
             }
         }
 
