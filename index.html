@@ -1,4 +1,4 @@
-<html lang="vi" data-theme="neon-rainbow" class="scroll-smooth">
+<html lang="vi" data-theme="neon-rainbow" class="scroll-smooth" style="scroll-padding-top: 24px;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -111,39 +111,6 @@
             pointer-events: none;
         }
 
-        /* INDEX NAV ACTIVE STATE */
-        .index-link.is-active {
-            background: rgba(255, 255, 255, 0.16);
-            border-color: rgba(255, 255, 255, 0.4);
-            color: #ffffff;
-            box-shadow: 0 0 18px var(--glow-color);
-        }
-
-        /* STEP-BY-STEP CLICK REVEAL */
-        .step-item {
-            transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: transform, opacity;
-        }
-        .step-item.is-hidden-step {
-            display: none;
-        }
-        .step-item.is-revealed {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            animation: stepPopIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        @keyframes stepPopIn {
-            0% {
-                opacity: 0;
-                transform: translateY(18px) scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
         /* LUXURY GPU CURSOR AURA & SPARKLES */
         #cursor-aura {
             position: fixed;
@@ -237,7 +204,7 @@
     <div class="relative z-10 max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
 
         <!-- HEADER & NAVIGATION THEME SWITCHER -->
-        <header class="flex flex-col md:flex-row justify-between items-center mb-8 pb-6 border-b border-white/10 gap-6">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-6 pb-6 border-b border-white/10 gap-6">
             <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-2xl rainbow-neon-border flex items-center justify-center text-2xl font-black font-display text-white bg-slate-900/80 shadow-lg">
                     S
@@ -258,27 +225,24 @@
             </div>
         </header>
 
-        <!-- INDEX / MỤC LỤC ĐIỀU HƯỚNG NHANH -->
-        <nav aria-label="Mục lục trang" class="mb-12">
-            <div class="glass-cyber rounded-2xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
-                <div class="flex items-center gap-2 px-2 text-xs font-extrabold uppercase tracking-wider text-pink-300">
-                    <i class="fa-solid fa-list-ul"></i>
-                    <span>Index</span>
-                </div>
-                <div class="flex flex-wrap items-center gap-2 flex-1 justify-start sm:justify-end">
-                    <a href="#sec-skills" data-index-target="sec-skills" class="index-link px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200 hover:bg-white/15 hover:scale-105 transition">
-                        01 • Kỹ năng bá chủ
-                    </a>
-                    <a href="#sec-projects" data-index-target="sec-projects" class="index-link px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200 hover:bg-white/15 hover:scale-105 transition">
-                        02 • Dự án vũ trụ
-                    </a>
-                    <a href="#sec-education" data-index-target="sec-education" class="index-link px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200 hover:bg-white/15 hover:scale-105 transition">
-                        03 • Học vấn chí tôn
-                    </a>
-                    <a href="#sec-contact" data-index-target="sec-contact" class="index-link px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200 hover:bg-white/15 hover:scale-105 transition">
-                        04 • Kết nối
-                    </a>
-                </div>
+        <!-- THANH ĐIỀU HƯỚNG NHANH -->
+        <nav id="quick-nav" aria-label="Điều hướng nhanh" class="mb-12">
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5 bg-black/35 backdrop-blur-xl p-2.5 rounded-2xl border border-white/10">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-pink-300 px-2">
+                    <i class="fa-solid fa-compass mr-1"></i> Điều hướng:
+                </span>
+                <a href="#sec-skills" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-pink-500/25 border border-white/10 hover:border-pink-400/40 text-xs font-bold text-white transition">
+                    Kỹ năng bá chủ
+                </a>
+                <a href="#sec-projects" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-cyan-500/25 border border-white/10 hover:border-cyan-400/40 text-xs font-bold text-white transition">
+                    Dự án vũ trụ
+                </a>
+                <a href="#sec-education" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-yellow-500/25 border border-white/10 hover:border-yellow-400/40 text-xs font-bold text-white transition">
+                    Học vấn chí tôn
+                </a>
+                <a href="#sec-contact" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-purple-500/25 border border-white/10 hover:border-purple-400/40 text-xs font-bold text-white transition">
+                    Kết nối
+                </a>
             </div>
         </nav>
 
@@ -336,20 +300,15 @@
         </section>
 
         <!-- KỸ NĂNG BÁ CHỦ (SKILLS) -->
-        <section id="sec-skills" class="mb-16 scroll-mt-24">
-            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
-                <div class="flex items-center gap-3">
-                    <div class="w-3.5 h-9 bg-gradient-to-b from-pink-500 to-cyan-400 rounded-full"></div>
-                    <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase tracking-wider text-white">Kỹ Năng Bá Chủ</h3>
-                </div>
-                <button type="button" data-step-btn="sec-skills" onclick="revealNextStep('sec-skills')" class="px-4 py-2 rounded-xl bg-pink-500/20 hover:bg-pink-500/30 border border-pink-400/40 text-xs font-bold uppercase tracking-wider text-pink-200 transition active:scale-95">
-                    <i class="fa-solid fa-hand-pointer mr-1.5"></i> Nhấp hiện tiếp (1/6)
-                </button>
+        <section id="sec-skills" class="mb-16">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-3.5 h-9 bg-gradient-to-b from-pink-500 to-cyan-400 rounded-full"></div>
+                <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase tracking-wider text-white">Kỹ Năng Bá Chủ</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Skill 1 -->
-                <div class="glass-cyber step-item is-revealed p-7 rounded-2xl group">
+                <div class="glass-cyber p-7 rounded-2xl group">
                     <div class="w-14 h-14 rounded-2xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-400 text-2xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-hand-sparkles"></i>
                     </div>
@@ -358,7 +317,7 @@
                 </div>
 
                 <!-- Skill 2 -->
-                <div class="glass-cyber step-item is-hidden-step p-7 rounded-2xl group">
+                <div class="glass-cyber p-7 rounded-2xl group">
                     <div class="w-14 h-14 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-door-open"></i>
                     </div>
@@ -367,7 +326,7 @@
                 </div>
 
                 <!-- Skill 3 -->
-                <div class="glass-cyber step-item is-hidden-step p-7 rounded-2xl group">
+                <div class="glass-cyber p-7 rounded-2xl group">
                     <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-atom"></i>
                     </div>
@@ -376,7 +335,7 @@
                 </div>
 
                 <!-- Skill 4 -->
-                <div class="glass-cyber step-item is-hidden-step p-7 rounded-2xl group">
+                <div class="glass-cyber p-7 rounded-2xl group">
                     <div class="w-14 h-14 rounded-2xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-yellow-400 text-2xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-bowl-food"></i>
                     </div>
@@ -385,7 +344,7 @@
                 </div>
 
                 <!-- Skill 5 -->
-                <div class="glass-cyber step-item is-hidden-step p-7 rounded-2xl group">
+                <div class="glass-cyber p-7 rounded-2xl group">
                     <div class="w-14 h-14 rounded-2xl bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center text-white text-2xl mb-5 group-hover:scale-110 transition shadow-lg">
                         <i class="fa-solid fa-rainbow"></i>
                     </div>
@@ -394,7 +353,7 @@
                 </div>
 
                 <!-- Skill 6 -->
-                <div class="glass-cyber step-item is-hidden-step p-7 rounded-2xl group">
+                <div class="glass-cyber p-7 rounded-2xl group">
                     <div class="w-14 h-14 rounded-2xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 text-2xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-brain"></i>
                     </div>
@@ -405,20 +364,15 @@
         </section>
 
         <!-- DỰ ÁN TIÊU BIỂU (PROJECTS) -->
-        <section id="sec-projects" class="mb-16 scroll-mt-24">
-            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
-                <div class="flex items-center gap-3">
-                    <div class="w-3.5 h-9 bg-gradient-to-b from-cyan-400 to-purple-600 rounded-full"></div>
-                    <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase tracking-wider text-white">Dự Án Quy Mô Vũ Trụ</h3>
-                </div>
-                <button type="button" data-step-btn="sec-projects" onclick="revealNextStep('sec-projects')" class="px-4 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-xs font-bold uppercase tracking-wider text-cyan-200 transition active:scale-95">
-                    <i class="fa-solid fa-hand-pointer mr-1.5"></i> Nhấp hiện tiếp (1/4)
-                </button>
+        <section id="sec-projects" class="mb-16">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-3.5 h-9 bg-gradient-to-b from-cyan-400 to-purple-600 rounded-full"></div>
+                <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase tracking-wider text-white">Dự Án Quy Mô Vũ Trụ</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Project 1 -->
-                <div class="glass-cyber step-item is-revealed rounded-2xl p-7 relative overflow-hidden group">
+                <div class="glass-cyber rounded-2xl p-7 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
                         <div class="p-3.5 rounded-2xl bg-pink-500/20 text-pink-400 text-2xl">
                             <i class="fa-solid fa-meteor"></i>
@@ -430,7 +384,7 @@
                 </div>
 
                 <!-- Project 2 -->
-                <div class="glass-cyber step-item is-hidden-step rounded-2xl p-7 relative overflow-hidden group">
+                <div class="glass-cyber rounded-2xl p-7 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
                         <div class="p-3.5 rounded-2xl bg-purple-500/20 text-purple-400 text-2xl">
                             <i class="fa-solid fa-shapes"></i>
@@ -442,7 +396,7 @@
                 </div>
 
                 <!-- Project 3 -->
-                <div class="glass-cyber step-item is-hidden-step rounded-2xl p-7 relative overflow-hidden group">
+                <div class="glass-cyber rounded-2xl p-7 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
                         <div class="p-3.5 rounded-2xl bg-cyan-500/20 text-cyan-400 text-2xl">
                             <i class="fa-solid fa-scale-balanced"></i>
@@ -454,7 +408,7 @@
                 </div>
 
                 <!-- Project 4 & 5 -->
-                <div class="glass-cyber step-item is-hidden-step rounded-2xl p-7 relative overflow-hidden group">
+                <div class="glass-cyber rounded-2xl p-7 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
                         <div class="p-3.5 rounded-2xl bg-yellow-500/20 text-yellow-400 text-2xl">
                             <i class="fa-solid fa-dna"></i>
@@ -468,19 +422,14 @@
         </section>
 
         <!-- HỌC VẤN & TRI THỨC (EDUCATION) -->
-        <section id="sec-education" class="mb-16 scroll-mt-24">
-            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
-                <div class="flex items-center gap-3">
-                    <div class="w-3.5 h-9 bg-gradient-to-b from-yellow-400 to-pink-500 rounded-full"></div>
-                    <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase tracking-wider text-white">Học Vấn Chí Tôn</h3>
-                </div>
-                <button type="button" data-step-btn="sec-education" onclick="revealNextStep('sec-education')" class="px-4 py-2 rounded-xl bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-400/40 text-xs font-bold uppercase tracking-wider text-yellow-200 transition active:scale-95">
-                    <i class="fa-solid fa-hand-pointer mr-1.5"></i> Nhấp hiện tiếp (1/3)
-                </button>
+        <section id="sec-education" class="mb-16">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="w-3.5 h-9 bg-gradient-to-b from-yellow-400 to-pink-500 rounded-full"></div>
+                <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase tracking-wider text-white">Học Vấn Chí Tôn</h3>
             </div>
 
             <div class="glass-cyber rounded-3xl p-7 sm:p-10 space-y-8">
-                <div class="step-item is-revealed flex gap-5 items-start">
+                <div class="flex gap-5 items-start">
                     <div class="w-12 h-12 rounded-2xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-400 text-xl shrink-0">
                         <i class="fa-solid fa-language"></i>
                     </div>
@@ -490,7 +439,7 @@
                     </div>
                 </div>
 
-                <div class="step-item is-hidden-step border-t border-white/10 pt-8 flex gap-5 items-start">
+                <div class="border-t border-white/10 pt-8 flex gap-5 items-start">
                     <div class="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl shrink-0">
                         <i class="fa-solid fa-infinity"></i>
                     </div>
@@ -500,7 +449,7 @@
                     </div>
                 </div>
 
-                <div class="step-item is-hidden-step border-t border-white/10 pt-8 flex gap-5 items-start">
+                <div class="border-t border-white/10 pt-8 flex gap-5 items-start">
                     <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xl shrink-0">
                         <i class="fa-solid fa-eye"></i>
                     </div>
@@ -513,7 +462,7 @@
         </section>
 
         <!-- LIÊN HỆ & MẠNG XÃ HỘI -->
-        <section id="sec-contact" class="mb-12 scroll-mt-24">
+        <section id="sec-contact" class="mb-12">
             <div class="glass-cyber rounded-3xl p-8 sm:p-14 text-center rainbow-neon-border relative overflow-hidden">
                 <!-- Đồng bộ dải màu Cầu Vồng 100% -->
                 <h3 class="text-3xl sm:text-5xl font-black font-display mb-4">
@@ -556,97 +505,6 @@
 
     <!-- JAVASCRIPT CORE LOGIC -->
     <script>
-        // ==========================================
-        // 0a. INDEX NAVIGATION ACTIVE HIGHLIGHT
-        // ==========================================
-        const indexSections = ['sec-skills', 'sec-projects', 'sec-education', 'sec-contact'];
-        const indexLinks = Array.from(document.querySelectorAll('.index-link'));
-
-        function setActiveIndex(secId) {
-            indexLinks.forEach(link => {
-                link.classList.toggle('is-active', link.getAttribute('data-index-target') === secId);
-            });
-        }
-
-        indexLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                const targetId = this.getAttribute('data-index-target');
-                if (targetId) setActiveIndex(targetId);
-            });
-        });
-
-        const indexObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setActiveIndex(entry.target.id);
-                }
-            });
-        }, { rootMargin: '-25% 0px -55% 0px' });
-
-        indexSections.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) indexObserver.observe(el);
-        });
-
-        // ==========================================
-        // 0b. CLICK-TO-REVEAL STEP ENGINE
-        // ==========================================
-        function updateSectionButton(sectionId) {
-            const sec = document.getElementById(sectionId);
-            const btn = document.querySelector(`[data-step-btn="${sectionId}"]`);
-            if (!sec || !btn) return;
-
-            const items = Array.from(sec.querySelectorAll('.step-item'));
-            const revealedCount = items.filter(el => el.classList.contains('is-revealed')).length;
-            const total = items.length;
-
-            if (revealedCount >= total) {
-                btn.innerHTML = `<i class="fa-solid fa-rotate-right mr-1.5"></i> Đã hiện hết (${total}/${total}) • Nhấp để thu gọn`;
-            } else {
-                btn.innerHTML = `<i class="fa-solid fa-hand-pointer mr-1.5"></i> Nhấp hiện tiếp (${revealedCount}/${total})`;
-            }
-        }
-
-        function revealNextStep(sectionId) {
-            const sec = document.getElementById(sectionId);
-            if (!sec) return;
-
-            const items = Array.from(sec.querySelectorAll('.step-item'));
-            const nextHidden = items.find(el => !el.classList.contains('is-revealed'));
-
-            if (nextHidden) {
-                nextHidden.classList.remove('is-hidden-step');
-                requestAnimationFrame(() => {
-                    nextHidden.classList.add('is-revealed');
-                });
-            } else {
-                items.forEach((el, idx) => {
-                    if (idx === 0) {
-                        el.classList.remove('is-hidden-step');
-                        el.classList.add('is-revealed');
-                    } else {
-                        el.classList.remove('is-revealed');
-                        el.classList.add('is-hidden-step');
-                    }
-                });
-            }
-            updateSectionButton(sectionId);
-        }
-
-        ['sec-skills', 'sec-projects', 'sec-education'].forEach(secId => {
-            const sec = document.getElementById(secId);
-            if (!sec) return;
-            sec.addEventListener('click', function(e) {
-                if (e.target.closest('button, a')) return;
-                const items = Array.from(sec.querySelectorAll('.step-item'));
-                const hasHidden = items.some(el => !el.classList.contains('is-revealed'));
-                if (hasHidden) {
-                    revealNextStep(secId);
-                }
-            });
-            updateSectionButton(secId);
-        });
-
         // ==========================================
         // 1. HELLO KITTY ONLINE IMAGE POPUP ON CLICK
         // ==========================================
