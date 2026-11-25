@@ -506,6 +506,38 @@
         }, true);
 
         // ==========================================
+        // 1b. CURSOR SPARKLE TRAIL ON MOUSE MOVE
+        // ==========================================
+        let lastSparkleTime = 0;
+        const trailSymbols = ['✨', '💖', '🌈', '⭐'];
+
+        window.addEventListener('mousemove', function(e) {
+            const now = Date.now();
+            if (now - lastSparkleTime < 35) return;
+            lastSparkleTime = now;
+
+            const trail = document.createElement('div');
+            trail.innerText = trailSymbols[Math.floor(Math.random() * trailSymbols.length)];
+            trail.style.position = 'fixed';
+            trail.style.left = (e.clientX + (Math.random() * 18 - 9)) + 'px';
+            trail.style.top = (e.clientY + (Math.random() * 18 - 9)) + 'px';
+            trail.style.fontSize = (11 + Math.random() * 7) + 'px';
+            trail.style.pointerEvents = 'none';
+            trail.style.zIndex = '999998';
+            trail.style.transition = 'transform 0.65s ease-out, opacity 0.65s ease-out';
+            trail.style.opacity = '0.95';
+
+            document.body.appendChild(trail);
+
+            requestAnimationFrame(() => {
+                trail.style.transform = `translate(${Math.random() * 24 - 12}px, -28px) scale(0.4)`;
+                trail.style.opacity = '0';
+            });
+
+            setTimeout(() => trail.remove(), 650);
+        }, { passive: true });
+
+        // ==========================================
         // 2. THEME SWITCHER LOGIC
         // ==========================================
         function changeTheme(themeName, btn) {
