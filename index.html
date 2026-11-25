@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi" data-theme="neon-rainbow" class="scroll-smooth" style="scroll-padding-top: 24px;">
 <head>
     <meta charset="UTF-8">
@@ -61,7 +62,6 @@
             font-family: 'Space Grotesk', sans-serif;
         }
 
-        /* Đồng bộ 100% Rainbow Gradient Text */
         .rainbow-text-sync {
             background: var(--rainbow-grad);
             background-size: 300% 300%;
@@ -76,7 +76,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Glassmorphism Card Style - Khung đậm và sắc sảo hơn */
         .glass-cyber {
             background: var(--card-bg);
             backdrop-filter: blur(18px);
@@ -92,7 +91,6 @@
             box-shadow: 0 14px 40px var(--glow-color);
         }
 
-        /* Viền cầu vồng Neon động */
         .rainbow-neon-border {
             position: relative;
         }
@@ -111,7 +109,9 @@
             pointer-events: none;
         }
 
-        /* HELLO KITTY POPUP PARTICLES */
+        /* ==========================================
+           2. HELLO KITTY POPUP ON CLICK
+           ========================================== */
         .kitty-popup-item {
             position: fixed;
             pointer-events: none !important;
@@ -120,7 +120,6 @@
             animation: kittyJumpUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        /* Chuẩn hóa kích thước ảnh Hello Kitty lấy từ mạng */
         .kitty-popup-item img {
             width: 72px;
             height: auto;
@@ -152,22 +151,13 @@
             background: var(--rainbow-grad);
             border-radius: 4px;
         }
-        [data-theme="cyberpunk-pink"] ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #ff007f, #d946ef, #00f0ff);
-        }
-        [data-theme="pastel-dream"] ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #ff9a9e, #fecfef, #a1c4fd);
-        }
-        [data-theme="gold-cosmic"] ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #ffe066, #f59e0b, #b45309);
-        }
     </style>
 </head>
 <body class="min-h-screen overflow-x-hidden relative select-none">
 
     <!-- Canvas Starfield Dynamic Background -->
     <canvas id="starfield" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
-    <!-- Canvas Luxury Cursor Sparkle & Ribbon Trail -->
+    <!-- Canvas Sparkle & Ribbon Cursor Trail -->
     <canvas id="cursor-trail-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-[999998]"></canvas>
 
     <!-- Ambient Glowing Orbs -->
@@ -176,7 +166,7 @@
 
     <div class="relative z-10 w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
 
-        <!-- HEADER & NAVIGATION THEME SWITCHER -->
+        <!-- HEADER & THEME SWITCHER -->
         <header class="flex flex-col md:flex-row justify-between items-center mb-6 pb-6 border-b-2 border-white/15 gap-6">
             <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-xl rainbow-neon-border flex items-center justify-center text-2xl font-black font-display text-white bg-slate-900/90 shadow-lg">
@@ -184,13 +174,14 @@
                 </div>
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-black font-display tracking-wider rainbow-text-sync uppercase">PHAN NGUYỄN THANH SANG</h1>
-                    <p class="text-xs text-pink-300/90 font-bold tracking-widest uppercase">👑 Hồ Sơ Cá Nhân • Phong Cách Đậm Nét</p>
+                    <p class="text-xs text-pink-300/90 font-bold tracking-widest uppercase">Hồ Sơ Cá Nhân • 11T2 THPT Chuyên Bến Tre</p>
                 </div>
             </div>
 
-            <!-- Theme Picker Buttons -->
             <div class="flex items-center gap-2 bg-black/50 backdrop-blur-xl p-2 rounded-xl border border-white/20 shadow-2xl">
-                <span class="text-xs px-2 text-gray-300 font-bold uppercase hidden sm:inline"><i class="fa-solid fa-wand-magic-sparkles text-pink-400 mr-1"></i> Theme:</span>
+                <span class="text-xs px-2 text-gray-300 font-bold uppercase hidden sm:inline">
+                    <i class="fa-solid fa-wand-magic-sparkles text-pink-400 mr-1"></i> Theme:
+                </span>
                 <button onclick="changeTheme('neon-rainbow', this)" class="theme-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white/10 border border-white/25 hover:scale-105 active">Neon Rainbow</button>
                 <button onclick="changeTheme('pastel-dream', this)" class="theme-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white/5 border border-white/10 hover:scale-105">Pastel</button>
                 <button onclick="changeTheme('cyberpunk-pink', this)" class="theme-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white/5 border border-white/10 hover:scale-105">CyberPink</button>
@@ -222,9 +213,7 @@
         <!-- HERO SECTION -->
         <section class="mb-14">
             <div class="glass-cyber rounded-2xl p-6 sm:p-10 rainbow-neon-border flex flex-col md:flex-row items-center gap-8 sm:gap-10 relative overflow-hidden border-l-4 border-l-pink-500">
-                <!-- Avatar Frame -->
                 <div class="relative shrink-0 group">
-                    <!-- Vương miện nổi góc trên bên phải khung ảnh -->
                     <div class="absolute -top-5 -right-4 z-20 w-12 h-12 rounded-xl bg-slate-900/95 border border-yellow-400/60 flex items-center justify-center shadow-xl rotate-12 group-hover:rotate-0 transition-transform duration-300">
                         <span class="text-3xl animate-bounce" style="animation-duration: 3s;">👑</span>
                     </div>
@@ -240,7 +229,6 @@
                     </div>
                 </div>
 
-                <!-- Hero Info -->
                 <div class="flex-1 text-center md:text-left space-y-4">
                     <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5">
                         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-pink-500/20 border border-pink-500/40 text-pink-200 text-xs font-extrabold uppercase tracking-wider">
@@ -259,12 +247,16 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
                         <div class="p-4 rounded-xl bg-white/5 border border-white/15">
-                            <div class="text-xs text-pink-400 uppercase font-extrabold tracking-wider mb-1"><i class="fa-solid fa-user-graduate mr-1"></i> Học Vấn & Định Hướng</div>
-                            <p class="text-sm font-semibold text-gray-200">Học sinh chuyên Toán • Rèn luyện thể lực & kỹ năng</p>
+                            <div class="text-xs text-pink-400 uppercase font-extrabold tracking-wider mb-1">
+                                <i class="fa-solid fa-user-graduate mr-1"></i> Học Vấn & Định Hướng
+                            </div>
+                            <p class="text-sm font-semibold text-gray-200">Học sinh lớp 11T2 chuyên Toán • Rèn luyện thể lực & kỹ năng</p>
                         </div>
                         <div class="p-4 rounded-xl bg-white/5 border border-white/15">
-                            <div class="text-xs text-cyan-400 uppercase font-extrabold tracking-wider mb-1"><i class="fa-solid fa-location-dot mr-1"></i> Khu Vực</div>
-                            <p class="text-sm font-semibold text-gray-200">Vĩnh Long / Bến Tre</p>
+                            <div class="text-xs text-cyan-400 uppercase font-extrabold tracking-wider mb-1">
+                                <i class="fa-solid fa-location-dot mr-1"></i> Khu Vực
+                            </div>
+                            <p class="text-sm font-semibold text-gray-200">Bến Tre, Vĩnh Long</p>
                         </div>
                     </div>
                 </div>
@@ -279,7 +271,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <!-- Skill 1 -->
                 <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-pink-500 group">
                     <div class="w-12 h-12 rounded-lg bg-pink-500/20 border border-pink-500/35 flex items-center justify-center text-pink-400 text-xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-code"></i>
@@ -288,7 +279,6 @@
                     <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Viết script tự động hóa, xử lý thuật toán và giải bài toán thực hành trên lớp.</p>
                 </div>
 
-                <!-- Skill 2 -->
                 <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-purple-500 group">
                     <div class="w-12 h-12 rounded-lg bg-purple-500/20 border border-purple-500/35 flex items-center justify-center text-purple-400 text-xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-square-root-variable"></i>
@@ -297,7 +287,6 @@
                     <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Phân tích bài toán logic, mô hình hình học và các dạng bài Vật lý – Hóa học.</p>
                 </div>
 
-                <!-- Skill 3 -->
                 <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-cyan-500 group">
                     <div class="w-12 h-12 rounded-lg bg-cyan-500/20 border border-cyan-500/35 flex items-center justify-center text-cyan-400 text-xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-language"></i>
@@ -306,7 +295,6 @@
                     <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Luyện kỹ năng Reading, Listening và phát triển vốn từ, diễn đạt ở trình độ B2–C1.</p>
                 </div>
 
-                <!-- Skill 4 -->
                 <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-yellow-500 group">
                     <div class="w-12 h-12 rounded-lg bg-yellow-500/20 border border-yellow-500/35 flex items-center justify-center text-yellow-400 text-xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-bezier-curve"></i>
@@ -315,7 +303,6 @@
                     <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Thiết kế hình minh họa vector với Inkscape và dựng trang web tĩnh bằng HTML/CSS/JS.</p>
                 </div>
 
-                <!-- Skill 5 -->
                 <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-emerald-400 group">
                     <div class="w-12 h-12 rounded-lg bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center text-white text-xl mb-5 group-hover:scale-110 transition shadow-lg">
                         <i class="fa-solid fa-dumbbell"></i>
@@ -324,7 +311,6 @@
                     <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Duy trì thói quen tập gym buổi sáng, chạy bộ và đạp xe đường dài để nâng cao sức bền.</p>
                 </div>
 
-                <!-- Skill 6 -->
                 <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-rose-500 group">
                     <div class="w-12 h-12 rounded-lg bg-rose-500/20 border border-rose-500/35 flex items-center justify-center text-rose-400 text-xl mb-5 group-hover:scale-110 transition">
                         <i class="fa-solid fa-shield-halved"></i>
@@ -343,7 +329,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <!-- Project 1 -->
                 <div class="glass-cyber rounded-xl p-6 sm:p-7 border-t-2 border-t-pink-500 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
                         <div class="p-3.5 rounded-lg bg-pink-500/20 text-pink-400 text-xl">
@@ -355,7 +340,6 @@
                     <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Ứng dụng web một file HTML/CSS/JS trực quan hóa phép đối xứng tâm với nhiều mẫu hình tùy chỉnh.</p>
                 </div>
 
-                <!-- Project 2 -->
                 <div class="glass-cyber rounded-xl p-6 sm:p-7 border-t-2 border-t-purple-500 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
                         <div class="p-3.5 rounded-lg bg-purple-500/20 text-purple-400 text-xl">
@@ -367,7 +351,6 @@
                     <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Xây dựng và tùy biến trang giới thiệu bản thân với nhiều bảng màu, hiệu ứng và liên kết mạng xã hội.</p>
                 </div>
 
-                <!-- Project 3 -->
                 <div class="glass-cyber rounded-xl p-6 sm:p-7 border-t-2 border-t-cyan-500 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
                         <div class="p-3.5 rounded-lg bg-cyan-500/20 text-cyan-400 text-xl">
@@ -379,7 +362,6 @@
                     <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Thiết kế đồ họa kế hoạch bữa ăn cân đối và khoa học theo từng mục tiêu sinh hoạt.</p>
                 </div>
 
-                <!-- Project 4 -->
                 <div class="glass-cyber rounded-xl p-6 sm:p-7 border-t-2 border-t-yellow-500 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
                         <div class="p-3.5 rounded-lg bg-yellow-500/20 text-yellow-400 text-xl">
@@ -436,7 +418,6 @@
         <!-- LIÊN HỆ & MẠNG XÃ HỘI -->
         <section id="sec-contact" class="mb-10">
             <div class="glass-cyber rounded-2xl p-8 sm:p-12 text-center rainbow-neon-border relative overflow-hidden">
-                <!-- Đồng bộ dải màu Cầu Vồng 100% -->
                 <h3 class="text-3xl sm:text-5xl font-black font-display mb-4 uppercase tracking-wide">
                     <span class="rainbow-text-sync">Kết Nối</span>
                 </h3>
@@ -444,7 +425,6 @@
                     Liên hệ hoặc theo dõi các kênh mạng xã hội của mình qua các liên kết dưới đây.
                 </p>
 
-                <!-- Social Links Grid -->
                 <div class="flex flex-wrap justify-center items-center gap-4 max-w-2xl mx-auto">
                     <a href="https://www.facebook.com/share/1FA61EUXE5/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" title="Facebook" class="w-14 h-14 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center text-2xl text-blue-400 hover:bg-blue-600 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
                         <i class="fa-brands fa-facebook-f"></i>
@@ -475,29 +455,24 @@
 
     </div>
 
-    <!-- JAVASCRIPT CORE LOGIC -->
     <script>
         // ==========================================
-        // 1. HELLO KITTY ONLINE IMAGE POPUP ON CLICK
+        // 1. HELLO KITTY POPUP ON CLICK
         // ==========================================
         const helloKittyImages = [
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2YMHimSMuNZHtqdnPbCXc0riAkP4B2Y75y28Mi_fseA&s=10'
         ];
 
-        // Lắng nghe click capture ở window cấp độ cao nhất
         window.addEventListener('click', function(e) {
             const imgSrc = helloKittyImages[Math.floor(Math.random() * helloKittyImages.length)];
 
-            // Tạo phần tử Hello Kitty pop up từ ảnh trên mạng
             const kitty = document.createElement('div');
             kitty.className = 'kitty-popup-item';
             kitty.style.left = e.clientX + 'px';
             kitty.style.top = e.clientY + 'px';
             kitty.innerHTML = `<img src="${imgSrc}" alt="Hello Kitty" loading="eager" referrerpolicy="no-referrer">`;
-
             document.body.appendChild(kitty);
 
-            // Thêm các trái tim và ngôi sao nhỏ bay xung quanh
             const symbols = ['💖', '✨', '🌈', '⭐'];
             for (let i = 0; i < 4; i++) {
                 const spark = document.createElement('div');
@@ -521,17 +496,16 @@
                 setTimeout(() => spark.remove(), 1000);
             }
 
-            // Xoá Kitty sau khi animation kết thúc
             setTimeout(() => {
                 kitty.remove();
             }, 1200);
         }, true);
 
         // ==========================================
-        // 1b. LUXURY SPARKLE & RIBBON CURSOR TRAIL (CANVAS)
+        // 2. SMOOTH & LIGHTWEIGHT CURSOR TRAIL
         // ==========================================
         const trailCanvas = document.getElementById('cursor-trail-canvas');
-        const trailCtx = trailCanvas.getContext('2d');
+        const trailCtx = trailCanvas.getContext('2d', { alpha: true });
 
         const themePalettes = {
             'neon-rainbow': ['#ff007f', '#ff7f00', '#ffe600', '#00ff87', '#00e5ff', '#b55cff'],
@@ -545,21 +519,27 @@
             return themePalettes[theme] || themePalettes['neon-rainbow'];
         }
 
+        let viewW = window.innerWidth;
+        let viewH = window.innerHeight;
+
         function resizeTrailCanvas() {
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
-            trailCanvas.width = Math.floor(window.innerWidth * dpr);
-            trailCanvas.height = Math.floor(window.innerHeight * dpr);
+            viewW = window.innerWidth;
+            viewH = window.innerHeight;
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+            trailCanvas.width = Math.floor(viewW * dpr);
+            trailCanvas.height = Math.floor(viewH * dpr);
             trailCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
-        window.addEventListener('resize', resizeTrailCanvas);
+        window.addEventListener('resize', resizeTrailCanvas, { passive: true });
         resizeTrailCanvas();
 
         const ribbonPoints = [];
         const sparkleParticles = [];
-        const MAX_RIBBON_POINTS = 28;
-        const MAX_SPARKLES = 110;
+        const MAX_RIBBON_POINTS = 20;
+        const MAX_SPARKLES = 70;
         let lastSpawnTime = 0;
-        let pointerActive = false;
+        let lastMouseX = null;
+        let lastMouseY = null;
 
         function spawnSparklesAt(x, y, count) {
             const palette = getActivePalette();
@@ -568,17 +548,17 @@
                     sparkleParticles.shift();
                 }
                 const angle = Math.random() * Math.PI * 2;
-                const speed = 0.4 + Math.random() * 1.8;
+                const speed = 0.35 + Math.random() * 1.4;
                 sparkleParticles.push({
-                    x: x + (Math.random() * 14 - 7),
-                    y: y + (Math.random() * 14 - 7),
-                    vx: Math.cos(angle) * speed + (Math.random() * 0.6 - 0.3),
-                    vy: Math.sin(angle) * speed - (0.5 + Math.random() * 1.1),
-                    size: 2.5 + Math.random() * 5.5,
+                    x: x + (Math.random() * 16 - 8),
+                    y: y + (Math.random() * 16 - 8),
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - (0.4 + Math.random() * 0.9),
+                    size: 3 + Math.random() * 5,
                     color: palette[Math.floor(Math.random() * palette.length)],
                     alpha: 1,
-                    decay: 0.022 + Math.random() * 0.02,
-                    isStar: Math.random() < 0.52,
+                    decay: 0.03 + Math.random() * 0.02,
+                    isStar: Math.random() < 0.55,
                     rotation: Math.random() * Math.PI,
                     vRot: (Math.random() - 0.5) * 0.14
                 });
@@ -586,30 +566,26 @@
         }
 
         window.addEventListener('mousemove', function(e) {
-            pointerActive = true;
+            const x = e.clientX;
+            const y = e.clientY;
             const palette = getActivePalette();
             const color = palette[ribbonPoints.length % palette.length];
 
-            ribbonPoints.push({
-                x: e.clientX,
-                y: e.clientY,
-                color: color,
-                age: 0
-            });
-            if (ribbonPoints.length > MAX_RIBBON_POINTS) {
-                ribbonPoints.shift();
+            if (lastMouseX === null || Math.hypot(x - lastMouseX, y - lastMouseY) > 4) {
+                ribbonPoints.push({ x, y, color, age: 0 });
+                if (ribbonPoints.length > MAX_RIBBON_POINTS) {
+                    ribbonPoints.shift();
+                }
+                lastMouseX = x;
+                lastMouseY = y;
             }
 
             const now = performance.now();
-            if (now - lastSpawnTime >= 16) {
+            if (now - lastSpawnTime >= 24) {
                 lastSpawnTime = now;
-                spawnSparklesAt(e.clientX, e.clientY, 3);
+                spawnSparklesAt(x, y, 2);
             }
         }, { passive: true });
-
-        window.addEventListener('mouseleave', function() {
-            pointerActive = false;
-        });
 
         function drawFourPointStar(ctx2d, x, y, outerR, innerR, rot) {
             ctx2d.save();
@@ -630,15 +606,19 @@
         }
 
         function renderCursorTrail() {
-            trailCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            trailCtx.clearRect(0, 0, viewW, viewH);
+
+            if (ribbonPoints.length === 0 && sparkleParticles.length === 0) {
+                requestAnimationFrame(renderCursorTrail);
+                return;
+            }
+
             trailCtx.save();
             trailCtx.globalCompositeOperation = 'lighter';
 
-            // 1. Vệt sáng lấp lánh mượt theo đường rê chuột
             for (let i = ribbonPoints.length - 1; i >= 0; i--) {
-                const pt = ribbonPoints[i];
-                pt.age += 1;
-                if (pt.age > 22 || (!pointerActive && i < ribbonPoints.length - 2)) {
+                ribbonPoints[i].age += 1;
+                if (ribbonPoints[i].age > 18) {
                     ribbonPoints.splice(i, 1);
                 }
             }
@@ -647,28 +627,25 @@
                 const prev = ribbonPoints[i - 1];
                 const curr = ribbonPoints[i];
                 const ratio = i / ribbonPoints.length;
-                const alpha = Math.max(0, (1 - curr.age / 24) * ratio * 0.65);
-                if (alpha <= 0.01) continue;
+                const alpha = Math.max(0, (1 - curr.age / 18) * ratio * 0.55);
+                if (alpha <= 0.02) continue;
 
                 trailCtx.beginPath();
                 trailCtx.moveTo(prev.x, prev.y);
                 trailCtx.lineTo(curr.x, curr.y);
                 trailCtx.strokeStyle = curr.color;
                 trailCtx.globalAlpha = alpha;
-                trailCtx.lineWidth = Math.max(1.5, ratio * 7.5);
+                trailCtx.lineWidth = Math.max(1.5, ratio * 6);
                 trailCtx.lineCap = 'round';
-                trailCtx.shadowColor = curr.color;
-                trailCtx.shadowBlur = 14;
                 trailCtx.stroke();
             }
 
-            // 2. Các hạt sao 4 cánh & hạt phát sáng đa sắc
             for (let i = sparkleParticles.length - 1; i >= 0; i--) {
                 const p = sparkleParticles[i];
                 p.x += p.vx;
                 p.y += p.vy;
-                p.vx *= 0.96;
-                p.vy *= 0.96;
+                p.vx *= 0.95;
+                p.vy *= 0.95;
                 p.rotation += p.vRot;
                 p.alpha -= p.decay;
 
@@ -679,19 +656,9 @@
 
                 trailCtx.globalAlpha = Math.max(0, p.alpha);
                 trailCtx.fillStyle = p.color;
-                trailCtx.shadowColor = p.color;
-                trailCtx.shadowBlur = 12;
 
                 if (p.isStar) {
-                    const pulse = 0.75 + 0.35 * Math.sin(p.alpha * Math.PI * 3);
-                    drawFourPointStar(
-                        trailCtx,
-                        p.x,
-                        p.y,
-                        p.size * 1.45 * pulse,
-                        p.size * 0.34 * pulse,
-                        p.rotation
-                    );
+                    drawFourPointStar(trailCtx, p.x, p.y, p.size * 1.4, p.size * 0.34, p.rotation);
                 } else {
                     trailCtx.beginPath();
                     trailCtx.arc(p.x, p.y, p.size * 0.55 * p.alpha + 0.8, 0, Math.PI * 2);
@@ -705,7 +672,7 @@
         renderCursorTrail();
 
         // ==========================================
-        // 2. THEME SWITCHER LOGIC
+        // 3. THEME SWITCHER
         // ==========================================
         function changeTheme(themeName, btn) {
             document.documentElement.setAttribute('data-theme', themeName);
@@ -719,7 +686,7 @@
         }
 
         // ==========================================
-        // 3. CANVAS STARFIELD BACKGROUND ANIMATION
+        // 4. STARFIELD BACKGROUND
         // ==========================================
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
@@ -728,7 +695,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
-        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('resize', resizeCanvas, { passive: true });
         resizeCanvas();
 
         const stars = Array.from({ length: 130 }, () => ({
