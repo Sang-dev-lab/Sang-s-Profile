@@ -111,6 +111,14 @@
             pointer-events: none;
         }
 
+        /* INDEX NAV ACTIVE STATE */
+        .index-link.is-active {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            box-shadow: 0 0 18px var(--glow-color);
+        }
+
         /* STEP-BY-STEP CLICK REVEAL */
         .step-item {
             transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
@@ -118,12 +126,6 @@
         }
         .step-item.is-hidden-step {
             display: none;
-        }
-        .step-item.is-peeking {
-            opacity: 0.45;
-            transform: scale(0.98);
-            cursor: pointer;
-            border-style: dashed;
         }
         .step-item.is-revealed {
             opacity: 1;
@@ -235,7 +237,7 @@
     <div class="relative z-10 max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
 
         <!-- HEADER & NAVIGATION THEME SWITCHER -->
-        <header class="flex flex-col md:flex-row justify-between items-center mb-12 pb-6 border-b border-white/10 gap-6">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 pb-6 border-b border-white/10 gap-6">
             <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-2xl rainbow-neon-border flex items-center justify-center text-2xl font-black font-display text-white bg-slate-900/80 shadow-lg">
                     S
@@ -255,6 +257,30 @@
                 <button onclick="changeTheme('gold-cosmic', this)" class="theme-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-white/5 border border-white/10 hover:scale-105">Gold Cosmic</button>
             </div>
         </header>
+
+        <!-- INDEX / MỤC LỤC ĐIỀU HƯỚNG NHANH -->
+        <nav aria-label="Mục lục trang" class="mb-12">
+            <div class="glass-cyber rounded-2xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2 px-2 text-xs font-extrabold uppercase tracking-wider text-pink-300">
+                    <i class="fa-solid fa-list-ul"></i>
+                    <span>Index</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2 flex-1 justify-start sm:justify-end">
+                    <a href="#sec-skills" data-index-target="sec-skills" class="index-link px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200 hover:bg-white/15 hover:scale-105 transition">
+                        01 • Kỹ năng bá chủ
+                    </a>
+                    <a href="#sec-projects" data-index-target="sec-projects" class="index-link px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200 hover:bg-white/15 hover:scale-105 transition">
+                        02 • Dự án vũ trụ
+                    </a>
+                    <a href="#sec-education" data-index-target="sec-education" class="index-link px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200 hover:bg-white/15 hover:scale-105 transition">
+                        03 • Học vấn chí tôn
+                    </a>
+                    <a href="#sec-contact" data-index-target="sec-contact" class="index-link px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200 hover:bg-white/15 hover:scale-105 transition">
+                        04 • Kết nối
+                    </a>
+                </div>
+            </div>
+        </nav>
 
         <!-- HERO SECTION -->
         <section class="mb-16">
@@ -310,7 +336,7 @@
         </section>
 
         <!-- KỸ NĂNG BÁ CHỦ (SKILLS) -->
-        <section id="sec-skills" class="mb-16">
+        <section id="sec-skills" class="mb-16 scroll-mt-24">
             <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
                 <div class="flex items-center gap-3">
                     <div class="w-3.5 h-9 bg-gradient-to-b from-pink-500 to-cyan-400 rounded-full"></div>
@@ -379,7 +405,7 @@
         </section>
 
         <!-- DỰ ÁN TIÊU BIỂU (PROJECTS) -->
-        <section id="sec-projects" class="mb-16">
+        <section id="sec-projects" class="mb-16 scroll-mt-24">
             <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
                 <div class="flex items-center gap-3">
                     <div class="w-3.5 h-9 bg-gradient-to-b from-cyan-400 to-purple-600 rounded-full"></div>
@@ -442,7 +468,7 @@
         </section>
 
         <!-- HỌC VẤN & TRI THỨC (EDUCATION) -->
-        <section id="sec-education" class="mb-16">
+        <section id="sec-education" class="mb-16 scroll-mt-24">
             <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
                 <div class="flex items-center gap-3">
                     <div class="w-3.5 h-9 bg-gradient-to-b from-yellow-400 to-pink-500 rounded-full"></div>
@@ -487,7 +513,7 @@
         </section>
 
         <!-- LIÊN HỆ & MẠNG XÃ HỘI -->
-        <section class="mb-12">
+        <section id="sec-contact" class="mb-12 scroll-mt-24">
             <div class="glass-cyber rounded-3xl p-8 sm:p-14 text-center rainbow-neon-border relative overflow-hidden">
                 <!-- Đồng bộ dải màu Cầu Vồng 100% -->
                 <h3 class="text-3xl sm:text-5xl font-black font-display mb-4">
@@ -531,7 +557,39 @@
     <!-- JAVASCRIPT CORE LOGIC -->
     <script>
         // ==========================================
-        // 0. CLICK-TO-REVEAL STEP ENGINE
+        // 0a. INDEX NAVIGATION ACTIVE HIGHLIGHT
+        // ==========================================
+        const indexSections = ['sec-skills', 'sec-projects', 'sec-education', 'sec-contact'];
+        const indexLinks = Array.from(document.querySelectorAll('.index-link'));
+
+        function setActiveIndex(secId) {
+            indexLinks.forEach(link => {
+                link.classList.toggle('is-active', link.getAttribute('data-index-target') === secId);
+            });
+        }
+
+        indexLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-index-target');
+                if (targetId) setActiveIndex(targetId);
+            });
+        });
+
+        const indexObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveIndex(entry.target.id);
+                }
+            });
+        }, { rootMargin: '-25% 0px -55% 0px' });
+
+        indexSections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) indexObserver.observe(el);
+        });
+
+        // ==========================================
+        // 0b. CLICK-TO-REVEAL STEP ENGINE
         // ==========================================
         function updateSectionButton(sectionId) {
             const sec = document.getElementById(sectionId);
@@ -562,7 +620,6 @@
                     nextHidden.classList.add('is-revealed');
                 });
             } else {
-                // Nếu đã hiện hết thì reset về hiện mục đầu tiên
                 items.forEach((el, idx) => {
                     if (idx === 0) {
                         el.classList.remove('is-hidden-step');
@@ -576,7 +633,6 @@
             updateSectionButton(sectionId);
         }
 
-        // Cho phép nhấp trực tiếp vào vùng trống của section để mở mục tiếp theo
         ['sec-skills', 'sec-projects', 'sec-education'].forEach(secId => {
             const sec = document.getElementById(secId);
             if (!sec) return;
