@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phan Nguyễn Thanh Sang | Vũ Trụ Chí Tôn</title>
+    <title>Phan Nguyễn Thanh Sang | Trang Cá Nhân</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -18,8 +18,8 @@
            ========================================== */
         :root {
             --bg-base: #06050e;
-            --card-bg: rgba(18, 14, 36, 0.55);
-            --card-border: rgba(255, 255, 255, 0.12);
+            --card-bg: rgba(16, 12, 34, 0.72);
+            --card-border: rgba(255, 255, 255, 0.18);
             --rainbow-grad: linear-gradient(135deg, #ff007f, #ff7f00, #ffeb3b, #00ff87, #00d2ff, #7a00ff, #ff007f);
             --glow-color: rgba(255, 0, 127, 0.35);
             --text-main: #ffffff;
@@ -28,24 +28,24 @@
 
         [data-theme="pastel-dream"] {
             --bg-base: #0c0817;
-            --card-bg: rgba(30, 20, 50, 0.6);
-            --card-border: rgba(255, 182, 193, 0.3);
+            --card-bg: rgba(28, 18, 48, 0.74);
+            --card-border: rgba(255, 182, 193, 0.36);
             --rainbow-grad: linear-gradient(135deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #e0c3fc, #ff9a9e);
             --glow-color: rgba(255, 154, 158, 0.4);
         }
 
         [data-theme="cyberpunk-pink"] {
             --bg-base: #0f0015;
-            --card-bg: rgba(35, 2, 40, 0.65);
-            --card-border: rgba(255, 0, 150, 0.35);
+            --card-bg: rgba(32, 2, 38, 0.78);
+            --card-border: rgba(255, 0, 150, 0.42);
             --rainbow-grad: linear-gradient(135deg, #ff007f, #00f0ff, #ffe600, #ff007f);
             --glow-color: rgba(0, 240, 255, 0.4);
         }
 
         [data-theme="gold-cosmic"] {
             --bg-base: #0c0a04;
-            --card-bg: rgba(28, 22, 10, 0.65);
-            --card-border: rgba(255, 215, 0, 0.3);
+            --card-bg: rgba(26, 20, 9, 0.78);
+            --card-border: rgba(255, 215, 0, 0.36);
             --rainbow-grad: linear-gradient(135deg, #ffe066, #f59e0b, #d97706, #ffe066);
             --glow-color: rgba(245, 158, 11, 0.4);
         }
@@ -76,19 +76,19 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Glassmorphism Card Style */
+        /* Glassmorphism Card Style - Khung đậm và sắc sảo hơn */
         .glass-cyber {
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             border: 1px solid var(--card-border);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 34px 0 rgba(0, 0, 0, 0.52);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .glass-cyber:hover {
-            transform: translateY(-6px);
-            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.36);
             box-shadow: 0 14px 40px var(--glow-color);
         }
 
@@ -109,34 +109,6 @@
             mask-composite: exclude;
             animation: rainbowFlow 4s linear infinite;
             pointer-events: none;
-        }
-
-        /* LUXURY GPU CURSOR AURA & SPARKLES */
-        #cursor-aura {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 34px;
-            height: 34px;
-            margin-left: -17px;
-            margin-top: -17px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 999998;
-            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,0,127,0.45) 45%, rgba(0,240,255,0.18) 70%, transparent 100%);
-            box-shadow: 0 0 18px rgba(255, 0, 127, 0.7), 0 0 32px rgba(0, 240, 255, 0.45);
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            will-change: transform;
-        }
-
-        .cursor-sparkle-gpu {
-            position: fixed;
-            pointer-events: none;
-            z-index: 999998;
-            line-height: 1;
-            will-change: transform, opacity;
-            transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease-out;
         }
 
         /* HELLO KITTY POPUP PARTICLES */
@@ -195,68 +167,69 @@
 
     <!-- Canvas Starfield Dynamic Background -->
     <canvas id="starfield" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
-    <div id="cursor-aura"></div>
+    <!-- Canvas Luxury Cursor Sparkle & Ribbon Trail -->
+    <canvas id="cursor-trail-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-[999998]"></canvas>
 
     <!-- Ambient Glowing Orbs -->
     <div class="fixed top-10 left-1/4 w-96 h-96 bg-pink-500/20 rounded-full blur-[140px] pointer-events-none"></div>
     <div class="fixed bottom-10 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[140px] pointer-events-none"></div>
 
-    <div class="relative z-10 max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <div class="relative z-10 w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
 
         <!-- HEADER & NAVIGATION THEME SWITCHER -->
-        <header class="flex flex-col md:flex-row justify-between items-center mb-6 pb-6 border-b border-white/10 gap-6">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-6 pb-6 border-b-2 border-white/15 gap-6">
             <div class="flex items-center gap-4">
-                <div class="w-14 h-14 rounded-2xl rainbow-neon-border flex items-center justify-center text-2xl font-black font-display text-white bg-slate-900/80 shadow-lg">
+                <div class="w-14 h-14 rounded-xl rainbow-neon-border flex items-center justify-center text-2xl font-black font-display text-white bg-slate-900/90 shadow-lg">
                     S
                 </div>
                 <div>
-                    <h1 class="text-2xl font-extrabold font-display tracking-wide rainbow-text-sync">PHAN NGUYỄN THANH SANG</h1>
-                    <p class="text-xs text-pink-300/90 font-medium tracking-widest uppercase">👑 Chí Tôn Vũ Trụ • Luân Hồi Giả</p>
+                    <h1 class="text-2xl sm:text-3xl font-black font-display tracking-wider rainbow-text-sync uppercase">PHAN NGUYỄN THANH SANG</h1>
+                    <p class="text-xs text-pink-300/90 font-bold tracking-widest uppercase">👑 Hồ Sơ Cá Nhân • Phong Cách Đậm Nét</p>
                 </div>
             </div>
 
             <!-- Theme Picker Buttons -->
-            <div class="flex items-center gap-2 bg-black/40 backdrop-blur-xl p-2 rounded-2xl border border-white/15 shadow-2xl">
+            <div class="flex items-center gap-2 bg-black/50 backdrop-blur-xl p-2 rounded-xl border border-white/20 shadow-2xl">
                 <span class="text-xs px-2 text-gray-300 font-bold uppercase hidden sm:inline"><i class="fa-solid fa-wand-magic-sparkles text-pink-400 mr-1"></i> Theme:</span>
-                <button onclick="changeTheme('neon-rainbow', this)" class="theme-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-white/10 border border-white/20 hover:scale-105 active">Neon Rainbow</button>
-                <button onclick="changeTheme('pastel-dream', this)" class="theme-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-white/5 border border-white/10 hover:scale-105">Pastel</button>
-                <button onclick="changeTheme('cyberpunk-pink', this)" class="theme-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-white/5 border border-white/10 hover:scale-105">CyberPink</button>
-                <button onclick="changeTheme('gold-cosmic', this)" class="theme-btn px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-white/5 border border-white/10 hover:scale-105">Gold Cosmic</button>
+                <button onclick="changeTheme('neon-rainbow', this)" class="theme-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white/10 border border-white/25 hover:scale-105 active">Neon Rainbow</button>
+                <button onclick="changeTheme('pastel-dream', this)" class="theme-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white/5 border border-white/10 hover:scale-105">Pastel</button>
+                <button onclick="changeTheme('cyberpunk-pink', this)" class="theme-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white/5 border border-white/10 hover:scale-105">CyberPink</button>
+                <button onclick="changeTheme('gold-cosmic', this)" class="theme-btn px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white/5 border border-white/10 hover:scale-105">Gold Cosmic</button>
             </div>
         </header>
 
         <!-- THANH ĐIỀU HƯỚNG NHANH -->
-        <nav id="quick-nav" aria-label="Điều hướng nhanh" class="mb-12">
-            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5 bg-black/35 backdrop-blur-xl p-2.5 rounded-2xl border border-white/10">
+        <nav id="quick-nav" aria-label="Điều hướng nhanh" class="mb-10">
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5 bg-black/45 backdrop-blur-xl p-2.5 rounded-xl border border-white/15">
                 <span class="text-xs font-extrabold uppercase tracking-wider text-pink-300 px-2">
                     <i class="fa-solid fa-compass mr-1"></i> Điều hướng:
                 </span>
-                <a href="#sec-skills" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-pink-500/25 border border-white/10 hover:border-pink-400/40 text-xs font-bold text-white transition">
-                    Kỹ năng bá chủ
+                <a href="#sec-skills" class="px-4 py-1.5 rounded-lg bg-white/5 hover:bg-pink-500/25 border border-white/15 hover:border-pink-400/50 text-xs font-extrabold uppercase tracking-wide text-white transition">
+                    Kỹ năng
                 </a>
-                <a href="#sec-projects" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-cyan-500/25 border border-white/10 hover:border-cyan-400/40 text-xs font-bold text-white transition">
-                    Dự án vũ trụ
+                <a href="#sec-projects" class="px-4 py-1.5 rounded-lg bg-white/5 hover:bg-cyan-500/25 border border-white/15 hover:border-cyan-400/50 text-xs font-extrabold uppercase tracking-wide text-white transition">
+                    Dự án
                 </a>
-                <a href="#sec-education" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-yellow-500/25 border border-white/10 hover:border-yellow-400/40 text-xs font-bold text-white transition">
-                    Học vấn chí tôn
+                <a href="#sec-education" class="px-4 py-1.5 rounded-lg bg-white/5 hover:bg-yellow-500/25 border border-white/15 hover:border-yellow-400/50 text-xs font-extrabold uppercase tracking-wide text-white transition">
+                    Học vấn
                 </a>
-                <a href="#sec-contact" class="px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-purple-500/25 border border-white/10 hover:border-purple-400/40 text-xs font-bold text-white transition">
+                <a href="#sec-contact" class="px-4 py-1.5 rounded-lg bg-white/5 hover:bg-purple-500/25 border border-white/15 hover:border-purple-400/50 text-xs font-extrabold uppercase tracking-wide text-white transition">
                     Kết nối
                 </a>
             </div>
         </nav>
 
         <!-- HERO SECTION -->
-        <section class="mb-16">
-            <div class="glass-cyber rounded-3xl p-8 sm:p-12 rainbow-neon-border flex flex-col md:flex-row items-center gap-10 relative overflow-hidden">
+        <section class="mb-14">
+            <div class="glass-cyber rounded-2xl p-6 sm:p-10 rainbow-neon-border flex flex-col md:flex-row items-center gap-8 sm:gap-10 relative overflow-hidden border-l-4 border-l-pink-500">
                 <!-- Avatar Frame -->
                 <div class="relative shrink-0 group">
                     <!-- Vương miện nổi góc trên bên phải khung ảnh -->
-                    <div class="absolute -top-5 -right-4 z-20 w-12 h-12 rounded-2xl bg-slate-900/90 border border-yellow-400/50 flex items-center justify-center shadow-xl rotate-12 group-hover:rotate-0 transition-transform duration-300">
+                    <div class="absolute -top-5 -right-4 z-20 w-12 h-12 rounded-xl bg-slate-900/95 border border-yellow-400/60 flex items-center justify-center shadow-xl rotate-12 group-hover:rotate-0 transition-transform duration-300">
                         <span class="text-3xl animate-bounce" style="animation-duration: 3s;">👑</span>
                     </div>
 
-                    <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-3xl bg-slate-900/90 overflow-hidden border-2 border-white/20 shadow-2xl relative z-10 rainbow-neon-border">
+                    <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-2xl bg-slate-900/95 overflow-hidden border-2 border-white/25 shadow-2xl relative z-10 rainbow-neon-border">
                         <img
                             id="hero-avatar"
                             src="https://i.pinimg.com/564x/e2/06/c2/e206c2098d08320e95d341f44b1dbd9c.jpg"
@@ -269,227 +242,226 @@
 
                 <!-- Hero Info -->
                 <div class="flex-1 text-center md:text-left space-y-4">
-                    <!-- Huy hiệu trạng thái + Dòng chữ Vũ Trụ Vô Song • Thanh Sang -->
                     <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5">
-                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/15 border border-pink-500/30 text-pink-300 text-xs font-bold uppercase tracking-wider">
-                            <span class="w-2 h-2 rounded-full bg-pink-400 animate-ping"></span> Đa Chiều Tồn Tại
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-pink-500/20 border border-pink-500/40 text-pink-200 text-xs font-extrabold uppercase tracking-wider">
+                            <span class="w-2 h-2 rounded-full bg-pink-400 animate-ping"></span> Hoạt Động
                         </div>
-                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-xs font-bold font-display uppercase tracking-wider">
-                            <span class="text-cyan-400">Vũ Trụ Vô Song</span>
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-lg bg-cyan-500/20 border border-cyan-500/40 text-xs font-extrabold font-display uppercase tracking-wider">
+                            <span class="text-cyan-300">Hồ Sơ Cá Nhân</span>
                             <span class="text-white/40">•</span>
                             <span class="text-white font-black">THANH SANG</span>
                         </div>
                     </div>
 
-                    <h2 class="text-3xl sm:text-5xl font-black font-display leading-tight">
+                    <h2 class="text-3xl sm:text-5xl font-black font-display leading-tight tracking-tight uppercase">
                         <span class="rainbow-text-sync">Phan Nguyễn Thanh Sang</span>
                     </h2>
-                    
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3">
-                        <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
-                            <div class="text-xs text-pink-400 uppercase font-extrabold tracking-wider mb-1"><i class="fa-solid fa-hourglass-start mr-1"></i> Tuổi Tu Vi</div>
-                            <p class="text-sm font-semibold text-gray-200">Đã tu qua vô số kiếm luân hồi</p>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/15">
+                            <div class="text-xs text-pink-400 uppercase font-extrabold tracking-wider mb-1"><i class="fa-solid fa-user-graduate mr-1"></i> Học Vấn & Định Hướng</div>
+                            <p class="text-sm font-semibold text-gray-200">Học sinh chuyên Toán • Rèn luyện thể lực & kỹ năng</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-white/5 border border-white/10">
-                            <div class="text-xs text-cyan-400 uppercase font-extrabold tracking-wider mb-1"><i class="fa-solid fa-place-of-worship mr-1"></i> Trụ Sở Linh Khí</div>
-                            <p class="text-sm font-semibold text-gray-200">Thiên hà là nơi tu dưỡng linh khí</p>
+                        <div class="p-4 rounded-xl bg-white/5 border border-white/15">
+                            <div class="text-xs text-cyan-400 uppercase font-extrabold tracking-wider mb-1"><i class="fa-solid fa-location-dot mr-1"></i> Khu Vực</div>
+                            <p class="text-sm font-semibold text-gray-200">Vĩnh Long / Bến Tre</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- KỸ NĂNG BÁ CHỦ (SKILLS) -->
-        <section id="sec-skills" class="mb-16">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-3.5 h-9 bg-gradient-to-b from-pink-500 to-cyan-400 rounded-full"></div>
-                <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase tracking-wider text-white">Kỹ Năng Bá Chủ</h3>
+        <!-- KỸ NĂNG (SKILLS) -->
+        <section id="sec-skills" class="mb-14">
+            <div class="flex items-center gap-3 mb-7 pb-3 border-b border-white/10">
+                <div class="w-2.5 h-8 bg-gradient-to-b from-pink-500 to-cyan-400"></div>
+                <h3 class="text-2xl sm:text-3xl font-black font-display uppercase tracking-wider text-white">Kỹ Năng</h3>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <!-- Skill 1 -->
-                <div class="glass-cyber p-7 rounded-2xl group">
-                    <div class="w-14 h-14 rounded-2xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-400 text-2xl mb-5 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-hand-sparkles"></i>
+                <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-pink-500 group">
+                    <div class="w-12 h-12 rounded-lg bg-pink-500/20 border border-pink-500/35 flex items-center justify-center text-pink-400 text-xl mb-5 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-code"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2">Thôn Tính Thiên Hạ</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Nắm giữ toàn bộ quy luật, cả vũ trụ rộng lớn nằm gọn trong tầm tay.</p>
+                    <h4 class="text-lg font-extrabold text-white mb-2 uppercase tracking-wide">Lập Trình Python</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Viết script tự động hóa, xử lý thuật toán và giải bài toán thực hành trên lớp.</p>
                 </div>
 
                 <!-- Skill 2 -->
-                <div class="glass-cyber p-7 rounded-2xl group">
-                    <div class="w-14 h-14 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-2xl mb-5 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-door-open"></i>
+                <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-purple-500 group">
+                    <div class="w-12 h-12 rounded-lg bg-purple-500/20 border border-purple-500/35 flex items-center justify-center text-purple-400 text-xl mb-5 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-square-root-variable"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2">Du Hành Đa Chiều</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Di chuyển sang các chiều không gian khác nhau tự do như đi chợ.</p>
+                    <h4 class="text-lg font-extrabold text-white mb-2 uppercase tracking-wide">Tư Duy Toán & Khoa Học</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Phân tích bài toán logic, mô hình hình học và các dạng bài Vật lý – Hóa học.</p>
                 </div>
 
                 <!-- Skill 3 -->
-                <div class="glass-cyber p-7 rounded-2xl group">
-                    <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl mb-5 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-atom"></i>
+                <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-cyan-500 group">
+                    <div class="w-12 h-12 rounded-lg bg-cyan-500/20 border border-cyan-500/35 flex items-center justify-center text-cyan-400 text-xl mb-5 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-language"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2">Thay Đổi Khái Niệm</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Tái định nghĩa lại các quy luật vật lý và thực tại của vạn vật vũ trụ.</p>
+                    <h4 class="text-lg font-extrabold text-white mb-2 uppercase tracking-wide">Tiếng Anh & IELTS</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Luyện kỹ năng Reading, Listening và phát triển vốn từ, diễn đạt ở trình độ B2–C1.</p>
                 </div>
 
                 <!-- Skill 4 -->
-                <div class="glass-cyber p-7 rounded-2xl group">
-                    <div class="w-14 h-14 rounded-2xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-yellow-400 text-2xl mb-5 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-bowl-food"></i>
+                <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-yellow-500 group">
+                    <div class="w-12 h-12 rounded-lg bg-yellow-500/20 border border-yellow-500/35 flex items-center justify-center text-yellow-400 text-xl mb-5 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-bezier-curve"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2">Thần Thực Vô Biên</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Ăn một lúc 10.000.000.000 (10 tỷ) cái bánh bao mà không gặp giới hạn.</p>
+                    <h4 class="text-lg font-extrabold text-white mb-2 uppercase tracking-wide">Đồ Họa Vector & Web</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Thiết kế hình minh họa vector với Inkscape và dựng trang web tĩnh bằng HTML/CSS/JS.</p>
                 </div>
 
                 <!-- Skill 5 -->
-                <div class="glass-cyber p-7 rounded-2xl group">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center text-white text-2xl mb-5 group-hover:scale-110 transition shadow-lg">
-                        <i class="fa-solid fa-rainbow"></i>
+                <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-emerald-400 group">
+                    <div class="w-12 h-12 rounded-lg bg-gradient-to-r from-pink-500 to-cyan-500 flex items-center justify-center text-white text-xl mb-5 group-hover:scale-110 transition shadow-lg">
+                        <i class="fa-solid fa-dumbbell"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2 rainbow-text-sync">Sức Mạnh Cầu Vồng</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Bộc phát sức mạnh dải màu cầu vồng huyền ảo chinh phục muôn loài.</p>
+                    <h4 class="text-lg font-extrabold text-white mb-2 uppercase tracking-wide rainbow-text-sync">Thể Lực & Kỷ Luật</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Duy trì thói quen tập gym buổi sáng, chạy bộ và đạp xe đường dài để nâng cao sức bền.</p>
                 </div>
 
                 <!-- Skill 6 -->
-                <div class="glass-cyber p-7 rounded-2xl group">
-                    <div class="w-14 h-14 rounded-2xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-400 text-2xl mb-5 group-hover:scale-110 transition">
-                        <i class="fa-solid fa-brain"></i>
+                <div class="glass-cyber p-6 sm:p-7 rounded-xl border-l-4 border-l-rose-500 group">
+                    <div class="w-12 h-12 rounded-lg bg-rose-500/20 border border-rose-500/35 flex items-center justify-center text-rose-400 text-xl mb-5 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <h4 class="text-lg font-bold text-white mb-2">Thao Túng Vạn Vật</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Thao túng tâm lý, ý thức và bất kỳ thực thể nào trong vũ trụ.</p>
+                    <h4 class="text-lg font-extrabold text-white mb-2 uppercase tracking-wide">Bảo Mật Tài Khoản</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Chủ động cập nhật mật khẩu mạnh và bật xác thực hai lớp (2FA) qua ứng dụng xác thực.</p>
                 </div>
             </div>
         </section>
 
-        <!-- DỰ ÁN TIÊU BIỂU (PROJECTS) -->
-        <section id="sec-projects" class="mb-16">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-3.5 h-9 bg-gradient-to-b from-cyan-400 to-purple-600 rounded-full"></div>
-                <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase tracking-wider text-white">Dự Án Quy Mô Vũ Trụ</h3>
+        <!-- DỰ ÁN (PROJECTS) -->
+        <section id="sec-projects" class="mb-14">
+            <div class="flex items-center gap-3 mb-7 pb-3 border-b border-white/10">
+                <div class="w-2.5 h-8 bg-gradient-to-b from-cyan-400 to-purple-600"></div>
+                <h3 class="text-2xl sm:text-3xl font-black font-display uppercase tracking-wider text-white">Dự Án</h3>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <!-- Project 1 -->
-                <div class="glass-cyber rounded-2xl p-7 relative overflow-hidden group">
+                <div class="glass-cyber rounded-xl p-6 sm:p-7 border-t-2 border-t-pink-500 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
-                        <div class="p-3.5 rounded-2xl bg-pink-500/20 text-pink-400 text-2xl">
-                            <i class="fa-solid fa-meteor"></i>
+                        <div class="p-3.5 rounded-lg bg-pink-500/20 text-pink-400 text-xl">
+                            <i class="fa-solid fa-compass-drafting"></i>
                         </div>
-                        <span class="text-xs px-3 py-1 rounded-full bg-pink-500/20 border border-pink-500/30 text-pink-300 font-mono font-bold">Universe Core</span>
+                        <span class="text-xs px-3 py-1 rounded-md bg-pink-500/20 border border-pink-500/35 text-pink-200 font-mono font-bold uppercase">Web Demo</span>
                     </div>
-                    <h4 class="text-xl font-bold text-white mb-2 group-hover:text-pink-300 transition">Tạo Ra Vô Số Thiên Hà</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed mb-4">Kiến tạo và phát triển hàng tỷ ngân hà, hệ mặt trời và tinh cầu trong không gian bao la.</p>
+                    <h4 class="text-xl font-extrabold text-white mb-2 uppercase tracking-wide group-hover:text-pink-300 transition">Mô Phỏng Đối Xứng Tâm</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Ứng dụng web một file HTML/CSS/JS trực quan hóa phép đối xứng tâm với nhiều mẫu hình tùy chỉnh.</p>
                 </div>
 
                 <!-- Project 2 -->
-                <div class="glass-cyber rounded-2xl p-7 relative overflow-hidden group">
+                <div class="glass-cyber rounded-xl p-6 sm:p-7 border-t-2 border-t-purple-500 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
-                        <div class="p-3.5 rounded-2xl bg-purple-500/20 text-purple-400 text-2xl">
-                            <i class="fa-solid fa-shapes"></i>
+                        <div class="p-3.5 rounded-lg bg-purple-500/20 text-purple-400 text-xl">
+                            <i class="fa-solid fa-globe"></i>
                         </div>
-                        <span class="text-xs px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono font-bold">Existence Logic</span>
+                        <span class="text-xs px-3 py-1 rounded-md bg-purple-500/20 border border-purple-500/35 text-purple-200 font-mono font-bold uppercase">GitHub Pages</span>
                     </div>
-                    <h4 class="text-xl font-bold text-white mb-2 group-hover:text-purple-300 transition">Sinh Ra Các Khái Niệm</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed mb-4">Tạo ra các định nghĩa nền tảng của vũ trụ: Thời gian, Không gian, Trọng lực và Đa chiều.</p>
+                    <h4 class="text-xl font-extrabold text-white mb-2 uppercase tracking-wide group-hover:text-purple-300 transition">Trang Hồ Sơ Cá Nhân</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Xây dựng và tùy biến trang giới thiệu bản thân với nhiều bảng màu, hiệu ứng và liên kết mạng xã hội.</p>
                 </div>
 
                 <!-- Project 3 -->
-                <div class="glass-cyber rounded-2xl p-7 relative overflow-hidden group">
+                <div class="glass-cyber rounded-xl p-6 sm:p-7 border-t-2 border-t-cyan-500 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
-                        <div class="p-3.5 rounded-2xl bg-cyan-500/20 text-cyan-400 text-2xl">
-                            <i class="fa-solid fa-scale-balanced"></i>
+                        <div class="p-3.5 rounded-lg bg-cyan-500/20 text-cyan-400 text-xl">
+                            <i class="fa-solid fa-utensils"></i>
                         </div>
-                        <span class="text-xs px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 font-mono font-bold">Balance Engine</span>
+                        <span class="text-xs px-3 py-1 rounded-md bg-cyan-500/20 border border-cyan-500/35 text-cyan-200 font-mono font-bold uppercase">Graphic</span>
                     </div>
-                    <h4 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-300 transition">Cân Bằng Sự Sống & Cái Chết</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed mb-4">Duy trì vòng lặp sinh tử tuyệt đối hài hòa trên tất cả các hành tinh và sinh thể.</p>
+                    <h4 class="text-xl font-extrabold text-white mb-2 uppercase tracking-wide group-hover:text-cyan-300 transition">Thiết Kế Thực Đơn Dinh Dưỡng</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Thiết kế đồ họa kế hoạch bữa ăn cân đối và khoa học theo từng mục tiêu sinh hoạt.</p>
                 </div>
 
-                <!-- Project 4 & 5 -->
-                <div class="glass-cyber rounded-2xl p-7 relative overflow-hidden group">
+                <!-- Project 4 -->
+                <div class="glass-cyber rounded-xl p-6 sm:p-7 border-t-2 border-t-yellow-500 relative overflow-hidden group">
                     <div class="flex items-start justify-between mb-4">
-                        <div class="p-3.5 rounded-2xl bg-yellow-500/20 text-yellow-400 text-2xl">
-                            <i class="fa-solid fa-dna"></i>
+                        <div class="p-3.5 rounded-lg bg-yellow-500/20 text-yellow-400 text-xl">
+                            <i class="fa-solid fa-cubes"></i>
                         </div>
-                        <span class="text-xs px-3 py-1 rounded-full bg-yellow-500/20 border border-yellow-500/30 text-yellow-300 font-mono font-bold">Genesis System</span>
+                        <span class="text-xs px-3 py-1 rounded-md bg-yellow-500/20 border border-yellow-500/35 text-yellow-200 font-mono font-bold uppercase">Modpack</span>
                     </div>
-                    <h4 class="text-xl font-bold text-white mb-2 group-hover:text-yellow-300 transition">Hệ Thống Ngôn Ngữ & Sự Sống</h4>
-                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed mb-4">Tạo ra mầm sống đầu tiên và thiết lập toàn bộ hệ thống giao tiếp ngôn ngữ cho nhân loại.</p>
+                    <h4 class="text-xl font-extrabold text-white mb-2 uppercase tracking-wide group-hover:text-yellow-300 transition">Cấu Hình Mod & Mạng Chơi</h4>
+                    <p class="text-sm font-medium text-[var(--text-muted)] leading-relaxed">Tổ chức modpack Fabric (Croptopia, Alex's Mobs Continued) và thiết lập kết nối mạng nội bộ qua Radmin VPN.</p>
                 </div>
             </div>
         </section>
 
-        <!-- HỌC VẤN & TRI THỨC (EDUCATION) -->
-        <section id="sec-education" class="mb-16">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="w-3.5 h-9 bg-gradient-to-b from-yellow-400 to-pink-500 rounded-full"></div>
-                <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase tracking-wider text-white">Học Vấn Chí Tôn</h3>
+        <!-- HỌC VẤN (EDUCATION) -->
+        <section id="sec-education" class="mb-14">
+            <div class="flex items-center gap-3 mb-7 pb-3 border-b border-white/10">
+                <div class="w-2.5 h-8 bg-gradient-to-b from-yellow-400 to-pink-500"></div>
+                <h3 class="text-2xl sm:text-3xl font-black font-display uppercase tracking-wider text-white">Học Vấn</h3>
             </div>
 
-            <div class="glass-cyber rounded-3xl p-7 sm:p-10 space-y-8">
+            <div class="glass-cyber rounded-2xl p-6 sm:p-9 border-l-4 border-l-yellow-400 space-y-7">
                 <div class="flex gap-5 items-start">
-                    <div class="w-12 h-12 rounded-2xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-400 text-xl shrink-0">
-                        <i class="fa-solid fa-language"></i>
+                    <div class="w-12 h-12 rounded-lg bg-pink-500/20 border border-pink-500/35 flex items-center justify-center text-pink-400 text-xl shrink-0">
+                        <i class="fa-solid fa-school"></i>
                     </div>
                     <div>
-                        <h4 class="text-xl font-bold text-white">Thông Hiểu Tất Cả Ngôn Ngữ</h4>
-                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1.5 leading-relaxed">Đã tự tay thiết kế và tạo ra toàn bộ hệ thống ngôn ngữ, ký hiệu giao tiếp trong đa vũ trụ.</p>
+                        <h4 class="text-xl font-extrabold text-white uppercase tracking-wide">Trường THPT Chuyên Bến Tre</h4>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1.5 leading-relaxed">Theo học lớp chuyên Toán, trau dồi kiến thức nền tảng vững chắc và kỹ năng làm việc nhóm.</p>
                     </div>
                 </div>
 
-                <div class="border-t border-white/10 pt-8 flex gap-5 items-start">
-                    <div class="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 text-xl shrink-0">
-                        <i class="fa-solid fa-infinity"></i>
+                <div class="border-t border-white/15 pt-7 flex gap-5 items-start">
+                    <div class="w-12 h-12 rounded-lg bg-purple-500/20 border border-purple-500/35 flex items-center justify-center text-purple-400 text-xl shrink-0">
+                        <i class="fa-solid fa-laptop-code"></i>
                     </div>
                     <div>
-                        <h4 class="text-xl font-bold text-white">Thông Hiểu Tất Cả Khái Niệm</h4>
-                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1.5 leading-relaxed">Sở hữu tri thức toàn vẹn vì chính bản thân là người tạo ra tất cả các khái niệm tồn tại.</p>
+                        <h4 class="text-xl font-extrabold text-white uppercase tracking-wide">Tin Học & Lập Trình Ứng Dụng</h4>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1.5 leading-relaxed">Thực hành lập trình Python, tư duy thuật toán và làm quen với các công cụ thiết kế giao diện web.</p>
                     </div>
                 </div>
 
-                <div class="border-t border-white/10 pt-8 flex gap-5 items-start">
-                    <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xl shrink-0">
-                        <i class="fa-solid fa-eye"></i>
+                <div class="border-t border-white/15 pt-7 flex gap-5 items-start">
+                    <div class="w-12 h-12 rounded-lg bg-cyan-500/20 border border-cyan-500/35 flex items-center justify-center text-cyan-400 text-xl shrink-0">
+                        <i class="fa-solid fa-book-open-reader"></i>
                     </div>
                     <div>
-                        <h4 class="text-xl font-bold text-white">Toàn Tri Vũ Trụ</h4>
-                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1.5 leading-relaxed">Thấu thị quá khứ, hiện tại và tương lai. Biết tất cả những chuyện xảy ra trong vũ trụ.</p>
+                        <h4 class="text-xl font-extrabold text-white uppercase tracking-wide">Tự Học Ngoại Ngữ & Đọc Sách</h4>
+                        <p class="text-sm font-medium text-[var(--text-muted)] mt-1.5 leading-relaxed">Chủ động luyện đề IELTS, đọc tài liệu tiếng Anh và tìm hiểu các tác phẩm văn học, kỹ năng sống.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- LIÊN HỆ & MẠNG XÃ HỘI -->
-        <section id="sec-contact" class="mb-12">
-            <div class="glass-cyber rounded-3xl p-8 sm:p-14 text-center rainbow-neon-border relative overflow-hidden">
+        <section id="sec-contact" class="mb-10">
+            <div class="glass-cyber rounded-2xl p-8 sm:p-12 text-center rainbow-neon-border relative overflow-hidden">
                 <!-- Đồng bộ dải màu Cầu Vồng 100% -->
-                <h3 class="text-3xl sm:text-5xl font-black font-display mb-4">
-                    <span class="rainbow-text-sync">Kết Nối Với Chí Tôn</span>
+                <h3 class="text-3xl sm:text-5xl font-black font-display mb-4 uppercase tracking-wide">
+                    <span class="rainbow-text-sync">Kết Nối</span>
                 </h3>
                 <p class="text-sm font-medium text-[var(--text-muted)] max-w-xl mx-auto mb-9 leading-relaxed">
-                    Dù bạn ở chiều không gian nào, các kênh truyền tin dưới đây luôn sẵn sàng kết nối.
+                    Liên hệ hoặc theo dõi các kênh mạng xã hội của mình qua các liên kết dưới đây.
                 </p>
 
                 <!-- Social Links Grid -->
                 <div class="flex flex-wrap justify-center items-center gap-4 max-w-2xl mx-auto">
-                    <a href="https://www.facebook.com/share/1FA61EUXE5/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" title="Facebook" class="w-14 h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-2xl text-blue-400 hover:bg-blue-600 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
+                    <a href="https://www.facebook.com/share/1FA61EUXE5/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" title="Facebook" class="w-14 h-14 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center text-2xl text-blue-400 hover:bg-blue-600 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
-                    <a href="https://discord.com/channels/1574794172685090917/1574794173838528584" target="_blank" rel="noopener noreferrer" title="Discord" class="w-14 h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-2xl text-indigo-400 hover:bg-indigo-600 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
+                    <a href="https://discord.com/channels/1574794172685090917/1574794173838528584" target="_blank" rel="noopener noreferrer" title="Discord" class="w-14 h-14 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center text-2xl text-indigo-400 hover:bg-indigo-600 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
                         <i class="fa-brands fa-discord"></i>
                     </a>
-                    <a href="https://www.instagram.com/pntsang_/" target="_blank" rel="noopener noreferrer" title="Instagram" class="w-14 h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-2xl text-pink-400 hover:bg-pink-600 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
+                    <a href="https://www.instagram.com/pntsang_/" target="_blank" rel="noopener noreferrer" title="Instagram" class="w-14 h-14 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center text-2xl text-pink-400 hover:bg-pink-600 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
-                    <a href="https://www.tiktok.com/@traiidepbigayy?_r=1&_t=ZS-9BfrVdTrVnb" target="_blank" rel="noopener noreferrer" title="TikTok" class="w-14 h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-2xl text-cyan-400 hover:bg-black hover:text-white hover:scale-110 transition duration-300 shadow-xl">
+                    <a href="https://www.tiktok.com/@traiidepbigayy?_r=1&_t=ZS-9BfrVdTrVnb" target="_blank" rel="noopener noreferrer" title="TikTok" class="w-14 h-14 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center text-2xl text-cyan-400 hover:bg-black hover:text-white hover:scale-110 transition duration-300 shadow-xl">
                         <i class="fa-brands fa-tiktok"></i>
                     </a>
-                    <a href="https://www.youtube.com/@MrBeast" target="_blank" rel="noopener noreferrer" title="YouTube" class="w-14 h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-2xl text-red-500 hover:bg-red-600 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
+                    <a href="https://www.youtube.com/@MrBeast" target="_blank" rel="noopener noreferrer" title="YouTube" class="w-14 h-14 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center text-2xl text-red-500 hover:bg-red-600 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
                         <i class="fa-brands fa-youtube"></i>
                     </a>
-                    <a href="https://github.com/Sang-dev-lab" target="_blank" rel="noopener noreferrer" title="GitHub" class="w-14 h-14 rounded-2xl bg-white/5 border border-white/15 flex items-center justify-center text-2xl text-gray-300 hover:bg-purple-700 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
+                    <a href="https://github.com/Sang-dev-lab" target="_blank" rel="noopener noreferrer" title="GitHub" class="w-14 h-14 rounded-xl bg-white/5 border border-white/20 flex items-center justify-center text-2xl text-gray-300 hover:bg-purple-700 hover:text-white hover:scale-110 transition duration-300 shadow-xl">
                         <i class="fa-brands fa-github"></i>
                     </a>
                 </div>
@@ -497,8 +469,8 @@
         </section>
 
         <!-- FOOTER -->
-        <footer class="text-center text-xs font-medium text-gray-400 py-6 border-t border-white/10">
-            <p>© 2026 Phan Nguyễn Thanh Sang. Bản quyền thuộc về Chí Tôn Vũ Trụ.</p>
+        <footer class="text-center text-xs font-medium text-gray-400 py-6 border-t border-white/15">
+            <p>© 2026 Phan Nguyễn Thanh Sang.</p>
         </footer>
 
     </div>
@@ -556,57 +528,181 @@
         }, true);
 
         // ==========================================
-        // 1b. GPU-ACCELERATED LUXURY CURSOR TRAIL
+        // 1b. LUXURY SPARKLE & RIBBON CURSOR TRAIL (CANVAS)
         // ==========================================
-        const cursorAura = document.getElementById('cursor-aura');
-        const luxurySymbols = ['✨', '💖', '🌈', '⭐', '💫'];
-        const MAX_GPU_SPARKLES = 18;
-        let lastLuxuryTime = 0;
-        let activeGpuSparkles = 0;
+        const trailCanvas = document.getElementById('cursor-trail-canvas');
+        const trailCtx = trailCanvas.getContext('2d');
+
+        const themePalettes = {
+            'neon-rainbow': ['#ff007f', '#ff7f00', '#ffe600', '#00ff87', '#00e5ff', '#b55cff'],
+            'pastel-dream': ['#ff9a9e', '#fecfef', '#a1c4fd', '#c2e9fb', '#e0c3fc', '#fff0f5'],
+            'cyberpunk-pink': ['#ff007f', '#00f0ff', '#ffe600', '#ff2a85', '#7000ff', '#00ffa3'],
+            'gold-cosmic': ['#fff3b0', '#ffd166', '#f59e0b', '#fbbf24', '#fff8dc', '#ff9f1c']
+        };
+
+        function getActivePalette() {
+            const theme = document.documentElement.getAttribute('data-theme') || 'neon-rainbow';
+            return themePalettes[theme] || themePalettes['neon-rainbow'];
+        }
+
+        function resizeTrailCanvas() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            trailCanvas.width = Math.floor(window.innerWidth * dpr);
+            trailCanvas.height = Math.floor(window.innerHeight * dpr);
+            trailCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        window.addEventListener('resize', resizeTrailCanvas);
+        resizeTrailCanvas();
+
+        const ribbonPoints = [];
+        const sparkleParticles = [];
+        const MAX_RIBBON_POINTS = 28;
+        const MAX_SPARKLES = 110;
+        let lastSpawnTime = 0;
+        let pointerActive = false;
+
+        function spawnSparklesAt(x, y, count) {
+            const palette = getActivePalette();
+            for (let i = 0; i < count; i++) {
+                if (sparkleParticles.length >= MAX_SPARKLES) {
+                    sparkleParticles.shift();
+                }
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 0.4 + Math.random() * 1.8;
+                sparkleParticles.push({
+                    x: x + (Math.random() * 14 - 7),
+                    y: y + (Math.random() * 14 - 7),
+                    vx: Math.cos(angle) * speed + (Math.random() * 0.6 - 0.3),
+                    vy: Math.sin(angle) * speed - (0.5 + Math.random() * 1.1),
+                    size: 2.5 + Math.random() * 5.5,
+                    color: palette[Math.floor(Math.random() * palette.length)],
+                    alpha: 1,
+                    decay: 0.022 + Math.random() * 0.02,
+                    isStar: Math.random() < 0.52,
+                    rotation: Math.random() * Math.PI,
+                    vRot: (Math.random() - 0.5) * 0.14
+                });
+            }
+        }
 
         window.addEventListener('mousemove', function(e) {
-            cursorAura.style.opacity = '1';
-            cursorAura.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+            pointerActive = true;
+            const palette = getActivePalette();
+            const color = palette[ribbonPoints.length % palette.length];
+
+            ribbonPoints.push({
+                x: e.clientX,
+                y: e.clientY,
+                color: color,
+                age: 0
+            });
+            if (ribbonPoints.length > MAX_RIBBON_POINTS) {
+                ribbonPoints.shift();
+            }
 
             const now = performance.now();
-            if (now - lastLuxuryTime < 55 || activeGpuSparkles >= MAX_GPU_SPARKLES) return;
-            lastLuxuryTime = now;
-            activeGpuSparkles++;
-
-            const el = document.createElement('div');
-            el.className = 'cursor-sparkle-gpu';
-            const sym = luxurySymbols[Math.floor(Math.random() * luxurySymbols.length)];
-            const size = 15 + Math.random() * 9;
-            const startX = e.clientX + (Math.random() * 20 - 10);
-            const startY = e.clientY + (Math.random() * 20 - 10);
-            const driftX = Math.random() * 36 - 18;
-            const driftY = -(26 + Math.random() * 22);
-            const rot = Math.random() * 80 - 40;
-
-            el.innerText = sym;
-            el.style.left = '0px';
-            el.style.top = '0px';
-            el.style.fontSize = size + 'px';
-            el.style.textShadow = '0 0 10px rgba(255, 255, 255, 0.85), 0 0 18px rgba(255, 0, 127, 0.75)';
-            el.style.transform = `translate3d(${startX}px, ${startY}px, 0) scale(0.75)`;
-            el.style.opacity = '1';
-
-            document.body.appendChild(el);
-
-            requestAnimationFrame(() => {
-                el.style.transform = `translate3d(${startX + driftX}px, ${startY + driftY}px, 0) rotate(${rot}deg) scale(1.2)`;
-                el.style.opacity = '0';
-            });
-
-            setTimeout(() => {
-                el.remove();
-                activeGpuSparkles = Math.max(0, activeGpuSparkles - 1);
-            }, 660);
+            if (now - lastSpawnTime >= 16) {
+                lastSpawnTime = now;
+                spawnSparklesAt(e.clientX, e.clientY, 3);
+            }
         }, { passive: true });
 
         window.addEventListener('mouseleave', function() {
-            cursorAura.style.opacity = '0';
+            pointerActive = false;
         });
+
+        function drawFourPointStar(ctx2d, x, y, outerR, innerR, rot) {
+            ctx2d.save();
+            ctx2d.translate(x, y);
+            ctx2d.rotate(rot);
+            ctx2d.beginPath();
+            for (let i = 0; i < 8; i++) {
+                const r = i % 2 === 0 ? outerR : innerR;
+                const a = (i * Math.PI) / 4;
+                const px = Math.cos(a) * r;
+                const py = Math.sin(a) * r;
+                if (i === 0) ctx2d.moveTo(px, py);
+                else ctx2d.lineTo(px, py);
+            }
+            ctx2d.closePath();
+            ctx2d.fill();
+            ctx2d.restore();
+        }
+
+        function renderCursorTrail() {
+            trailCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            trailCtx.save();
+            trailCtx.globalCompositeOperation = 'lighter';
+
+            // 1. Vệt sáng lấp lánh mượt theo đường rê chuột
+            for (let i = ribbonPoints.length - 1; i >= 0; i--) {
+                const pt = ribbonPoints[i];
+                pt.age += 1;
+                if (pt.age > 22 || (!pointerActive && i < ribbonPoints.length - 2)) {
+                    ribbonPoints.splice(i, 1);
+                }
+            }
+
+            for (let i = 1; i < ribbonPoints.length; i++) {
+                const prev = ribbonPoints[i - 1];
+                const curr = ribbonPoints[i];
+                const ratio = i / ribbonPoints.length;
+                const alpha = Math.max(0, (1 - curr.age / 24) * ratio * 0.65);
+                if (alpha <= 0.01) continue;
+
+                trailCtx.beginPath();
+                trailCtx.moveTo(prev.x, prev.y);
+                trailCtx.lineTo(curr.x, curr.y);
+                trailCtx.strokeStyle = curr.color;
+                trailCtx.globalAlpha = alpha;
+                trailCtx.lineWidth = Math.max(1.5, ratio * 7.5);
+                trailCtx.lineCap = 'round';
+                trailCtx.shadowColor = curr.color;
+                trailCtx.shadowBlur = 14;
+                trailCtx.stroke();
+            }
+
+            // 2. Các hạt sao 4 cánh & hạt phát sáng đa sắc
+            for (let i = sparkleParticles.length - 1; i >= 0; i--) {
+                const p = sparkleParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vx *= 0.96;
+                p.vy *= 0.96;
+                p.rotation += p.vRot;
+                p.alpha -= p.decay;
+
+                if (p.alpha <= 0) {
+                    sparkleParticles.splice(i, 1);
+                    continue;
+                }
+
+                trailCtx.globalAlpha = Math.max(0, p.alpha);
+                trailCtx.fillStyle = p.color;
+                trailCtx.shadowColor = p.color;
+                trailCtx.shadowBlur = 12;
+
+                if (p.isStar) {
+                    const pulse = 0.75 + 0.35 * Math.sin(p.alpha * Math.PI * 3);
+                    drawFourPointStar(
+                        trailCtx,
+                        p.x,
+                        p.y,
+                        p.size * 1.45 * pulse,
+                        p.size * 0.34 * pulse,
+                        p.rotation
+                    );
+                } else {
+                    trailCtx.beginPath();
+                    trailCtx.arc(p.x, p.y, p.size * 0.55 * p.alpha + 0.8, 0, Math.PI * 2);
+                    trailCtx.fill();
+                }
+            }
+
+            trailCtx.restore();
+            requestAnimationFrame(renderCursorTrail);
+        }
+        renderCursorTrail();
 
         // ==========================================
         // 2. THEME SWITCHER LOGIC
@@ -614,11 +710,11 @@
         function changeTheme(themeName, btn) {
             document.documentElement.setAttribute('data-theme', themeName);
             document.querySelectorAll('.theme-btn').forEach(b => {
-                b.classList.remove('active', 'bg-white/10', 'border-white/20');
+                b.classList.remove('active', 'bg-white/10', 'border-white/25');
                 b.classList.add('bg-white/5', 'border-white/10');
             });
             if (btn) {
-                btn.classList.add('active', 'bg-white/10', 'border-white/20');
+                btn.classList.add('active', 'bg-white/10', 'border-white/25');
             }
         }
 
