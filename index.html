@@ -508,19 +508,24 @@
         }, true);
 
         // ==========================================
-        // 1b. LUXURY COSMIC RIBBON & STARBURST CURSOR TRAIL (60FPS CANVAS)
+        // 1b. SMOOTH COSMIC RIBBON & STARBURST CURSOR TRAIL
         // ==========================================
         const cursorCanvas = document.getElementById('cursor-fx');
         const cursorCtx = cursorCanvas.getContext('2d');
         const cursorRibbon = [];
         const cursorSparkles = [];
         const cosmicPalette = ['#ff007f', '#ff7f00', '#ffe600', '#00ff87', '#00f0ff', '#a855f7', '#ffffff'];
+        const MAX_RIBBON_POINTS = 18;
+        const MAX_SPARKLES = 40;
         let pointerPos = { x: -200, y: -200, active: false };
         let rainbowHue = 0;
+        let lastMoveSpawn = 0;
 
         function resizeCursorCanvas() {
-            cursorCanvas.width = window.innerWidth;
-            cursorCanvas.height = window.innerHeight;
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+            cursorCanvas.width = Math.floor(window.innerWidth * dpr);
+            cursorCanvas.height = Math.floor(window.innerHeight * dpr);
+            cursorCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
         window.addEventListener('resize', resizeCursorCanvas);
         resizeCursorCanvas();
@@ -530,8 +535,6 @@
             ctx.translate(x, y);
             ctx.rotate(rotation);
             ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
-            ctx.shadowBlur = 16;
-            ctx.shadowColor = color;
             ctx.fillStyle = color;
 
             ctx.beginPath();
@@ -546,7 +549,6 @@
             ctx.closePath();
             ctx.fill();
 
-            // Lõi trắng rực sáng ở tâm ngôi sao
             ctx.fillStyle = '#ffffff';
             ctx.beginPath();
             ctx.arc(0, 0, innerR * 0.65, 0, Math.PI * 2);
@@ -559,101 +561,116 @@
             pointerPos.y = e.clientY;
             pointerPos.active = true;
 
+            const now = performance.now();
+            if (now - lastMoveSpawn < 32) return;
+            lastMoveSpawn = now;
+
             cursorRibbon.push({
                 x: e.clientX,
                 y: e.clientY,
                 life: 1,
                 hue: rainbowHue
             });
-            if (cursorRibbon.length > 26) cursorRibbon.shift();
-            rainbowHue = (rainbowHue + 10) % 360;
+            if (cursorRibbon.length > MAX_RIBBON_POINTS) cursorRibbon.shift();
+            rainbowHue = (rainbowHue + 14) % 360;
 
-            // Bung 3-4 hạt sao lấp lánh mỗi nhịp rê chuột
-            const count = 3 + Math.floor(Math.random() * 2);
+            const count = Math.random() < 0.45 ? 2 : 1;
             for (let i = 0; i < count; i++) {
+                if (cursorSparkles.length >= MAX_SPARKLES) cursorSparkles.shift();
                 const angle = Math.random() * Math.PI * 2;
-                const speed = 0.6 + Math.random() * 2.4;
+                const speed = 0.6 + Math.random() * 2.1;
                 cursorSparkles.push({
                     x: e.clientX + (Math.random() * 12 - 6),
                     y: e.clientY + (Math.random() * 12 - 6),
                     vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed - 0.5,
-                    size: 5 + Math.random() * 7,
+                    vy: Math.sin(angle) * speed - 0.4,
+                    size: 5.5 + Math.random() * 6.5,
                     rotation: Math.random() * Math.PI,
-                    rotSpeed: (Math.random() - 0.5) * 0.18,
+                    rotSpeed: (Math.random() - 0.5) * 0.16,
                     color: cosmicPalette[Math.floor(Math.random() * cosmicPalette.length)],
                     life: 1,
-                    decay: 0.022 + Math.random() * 0.015,
+                    decay: 0.03 + Math.random() * 0.015,
                     twinklePhase: Math.random() * Math.PI * 2
                 });
             }
         }, { passive: true });
 
         function renderCursorEffects() {
-            cursorCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
-            cursorCtx.globalCompositeOperation = 'lighter';
+            if (!document.hidden) {
+                const w = window.innerWidth;
+                const h = window.innerHeight;
+                cursorCtx.clearRect(0, 0, w, h);
+                cursorCtx.globalCompositeOperation = 'lighter';
 
-            // 1. Vẽ dải lụa cầu vồng neon nối theo đường chuột
-            for (let i = 1; i < cursorRibbon.length; i++) {
-                const prev = cursorRibbon[i - 1];
-                const curr = cursorRibbon[i];
-                const ratio = i / cursorRibbon.length;
+                // 1. Dải lụa cầu vồng 2 lớp (hào quang ngoài + lõi sáng)
+                for (let i = 1; i < cursorRibbon.length; i++) {
+                    const prev = cursorRibbon[i - 1];
+                    const curr = cursorRibbon[i];
+                    const ratio = i / cursorRibbon.length;
+                    const alpha = curr.life * ratio;
 
-                cursorCtx.save();
-                cursorCtx.beginPath();
-                cursorCtx.moveTo(prev.x, prev.y);
-                cursorCtx.lineTo(curr.x, curr.y);
-                cursorCtx.strokeStyle = `hsla(${curr.hue}, 100%, 65%, ${curr.life * ratio * 0.85})`;
-                cursorCtx.lineWidth = ratio * 9;
-                cursorCtx.lineCap = 'round';
-                cursorCtx.shadowBlur = 18;
-                cursorCtx.shadowColor = `hsl(${curr.hue}, 100%, 60%)`;
-                cursorCtx.stroke();
-                cursorCtx.restore();
-            }
+                    cursorCtx.beginPath();
+                    cursorCtx.moveTo(prev.x, prev.y);
+                    cursorCtx.lineTo(curr.x, curr.y);
+                    cursorCtx.strokeStyle = `hsla(${curr.hue}, 100%, 60%, ${alpha * 0.35})`;
+                    cursorCtx.lineWidth = ratio * 15;
+                    cursorCtx.lineCap = 'round';
+                    cursorCtx.stroke();
 
-            for (let i = cursorRibbon.length - 1; i >= 0; i--) {
-                cursorRibbon[i].life -= 0.045;
-                if (cursorRibbon[i].life <= 0) cursorRibbon.splice(i, 1);
-            }
-
-            // 2. Vẽ hào quang tỏa sáng quanh đầu con trỏ
-            if (pointerPos.active) {
-                const aura = cursorCtx.createRadialGradient(
-                    pointerPos.x, pointerPos.y, 1,
-                    pointerPos.x, pointerPos.y, 28
-                );
-                aura.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-                aura.addColorStop(0.35, 'rgba(255, 0, 127, 0.45)');
-                aura.addColorStop(0.7, 'rgba(0, 240, 255, 0.25)');
-                aura.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-                cursorCtx.fillStyle = aura;
-                cursorCtx.beginPath();
-                cursorCtx.arc(pointerPos.x, pointerPos.y, 28, 0, Math.PI * 2);
-                cursorCtx.fill();
-            }
-
-            // 3. Vẽ các ngôi sao 4 cánh lấp lánh bung tỏa
-            for (let i = cursorSparkles.length - 1; i >= 0; i--) {
-                const p = cursorSparkles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vx *= 0.96;
-                p.vy *= 0.96;
-                p.rotation += p.rotSpeed;
-                p.twinklePhase += 0.35;
-                p.life -= p.decay;
-
-                if (p.life <= 0) {
-                    cursorSparkles.splice(i, 1);
-                    continue;
+                    cursorCtx.beginPath();
+                    cursorCtx.moveTo(prev.x, prev.y);
+                    cursorCtx.lineTo(curr.x, curr.y);
+                    cursorCtx.strokeStyle = `hsla(${curr.hue}, 100%, 72%, ${alpha * 0.85})`;
+                    cursorCtx.lineWidth = ratio * 5.5;
+                    cursorCtx.lineCap = 'round';
+                    cursorCtx.stroke();
                 }
 
-                const twinkle = 0.75 + 0.35 * Math.sin(p.twinklePhase);
-                const outerR = p.size * p.life * twinkle;
-                const innerR = outerR * 0.28;
-                drawFourPointStar(cursorCtx, p.x, p.y, outerR, innerR, p.rotation, p.color, p.life);
+                for (let i = cursorRibbon.length - 1; i >= 0; i--) {
+                    cursorRibbon[i].life -= 0.065;
+                    if (cursorRibbon[i].life <= 0) cursorRibbon.splice(i, 1);
+                }
+
+                // 2. Hào quang mềm quanh đầu con trỏ
+                if (pointerPos.active) {
+                    const aura = cursorCtx.createRadialGradient(
+                        pointerPos.x, pointerPos.y, 1,
+                        pointerPos.x, pointerPos.y, 26
+                    );
+                    aura.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+                    aura.addColorStop(0.4, 'rgba(255, 0, 127, 0.38)');
+                    aura.addColorStop(0.75, 'rgba(0, 240, 255, 0.2)');
+                    aura.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+                    cursorCtx.fillStyle = aura;
+                    cursorCtx.beginPath();
+                    cursorCtx.arc(pointerPos.x, pointerPos.y, 26, 0, Math.PI * 2);
+                    cursorCtx.fill();
+                }
+
+                // 3. Các ngôi sao 4 cánh lấp lánh
+                for (let i = cursorSparkles.length - 1; i >= 0; i--) {
+                    const p = cursorSparkles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vx *= 0.95;
+                    p.vy *= 0.95;
+                    p.rotation += p.rotSpeed;
+                    p.twinklePhase += 0.32;
+                    p.life -= p.decay;
+
+                    if (p.life <= 0) {
+                        cursorSparkles.splice(i, 1);
+                        continue;
+                    }
+
+                    const twinkle = 0.78 + 0.3 * Math.sin(p.twinklePhase);
+                    const outerR = p.size * p.life * twinkle;
+                    const innerR = outerR * 0.28;
+                    drawFourPointStar(cursorCtx, p.x, p.y, outerR, innerR, p.rotation, p.color, p.life);
+                }
+
+                cursorCtx.globalCompositeOperation = 'source-over';
             }
 
             requestAnimationFrame(renderCursorEffects);
