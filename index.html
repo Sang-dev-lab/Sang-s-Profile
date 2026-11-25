@@ -509,32 +509,51 @@
         // 1b. CURSOR SPARKLE TRAIL ON MOUSE MOVE
         // ==========================================
         let lastSparkleTime = 0;
-        const trailSymbols = ['✨', '💖', '🌈', '⭐'];
+        const trailEffects = [
+            { char: '✨', glow: 'rgba(255, 255, 140, 0.95)' },
+            { char: '💖', glow: 'rgba(255, 0, 127, 0.95)' },
+            { char: '🌈', glow: 'rgba(0, 240, 255, 0.9)' },
+            { char: '⭐', glow: 'rgba(255, 215, 0, 0.95)' },
+            { char: '💫', glow: 'rgba(217, 70, 239, 0.95)' }
+        ];
 
         window.addEventListener('mousemove', function(e) {
             const now = Date.now();
-            if (now - lastSparkleTime < 35) return;
+            if (now - lastSparkleTime < 22) return;
             lastSparkleTime = now;
 
-            const trail = document.createElement('div');
-            trail.innerText = trailSymbols[Math.floor(Math.random() * trailSymbols.length)];
-            trail.style.position = 'fixed';
-            trail.style.left = (e.clientX + (Math.random() * 18 - 9)) + 'px';
-            trail.style.top = (e.clientY + (Math.random() * 18 - 9)) + 'px';
-            trail.style.fontSize = (11 + Math.random() * 7) + 'px';
-            trail.style.pointerEvents = 'none';
-            trail.style.zIndex = '999998';
-            trail.style.transition = 'transform 0.65s ease-out, opacity 0.65s ease-out';
-            trail.style.opacity = '0.95';
+            const burstCount = Math.random() < 0.45 ? 2 : 1;
+            for (let i = 0; i < burstCount; i++) {
+                const item = trailEffects[Math.floor(Math.random() * trailEffects.length)];
+                const trail = document.createElement('div');
+                const offsetX = (Math.random() * 28 - 14);
+                const offsetY = (Math.random() * 28 - 14);
+                const driftX = (Math.random() * 44 - 22);
+                const driftY = -(28 + Math.random() * 26);
+                const spin = (Math.random() * 90 - 45);
 
-            document.body.appendChild(trail);
+                trail.innerText = item.char;
+                trail.style.position = 'fixed';
+                trail.style.left = (e.clientX + offsetX) + 'px';
+                trail.style.top = (e.clientY + offsetY) + 'px';
+                trail.style.fontSize = (14 + Math.random() * 10) + 'px';
+                trail.style.lineHeight = '1';
+                trail.style.pointerEvents = 'none';
+                trail.style.zIndex = '999998';
+                trail.style.textShadow = `0 0 8px ${item.glow}, 0 0 16px ${item.glow}`;
+                trail.style.transition = 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease-out';
+                trail.style.transform = 'translate(-50%, -50%) scale(0.85)';
+                trail.style.opacity = '1';
 
-            requestAnimationFrame(() => {
-                trail.style.transform = `translate(${Math.random() * 24 - 12}px, -28px) scale(0.4)`;
-                trail.style.opacity = '0';
-            });
+                document.body.appendChild(trail);
 
-            setTimeout(() => trail.remove(), 650);
+                requestAnimationFrame(() => {
+                    trail.style.transform = `translate(calc(-50% + ${driftX}px), calc(-50% + ${driftY}px)) rotate(${spin}deg) scale(1.25)`;
+                    trail.style.opacity = '0';
+                });
+
+                setTimeout(() => trail.remove(), 800);
+            }
         }, { passive: true });
 
         // ==========================================
