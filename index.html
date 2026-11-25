@@ -19,6 +19,7 @@
             --card-bg: rgba(16, 12, 34, 0.72);
             --card-border: rgba(255, 255, 255, 0.18);
             --rainbow-grad: linear-gradient(135deg, #ff007f, #ff7f00, #ffeb3b, #00ff87, #00d2ff, #7a00ff, #ff007f);
+            --aura-conic: conic-gradient(from 0deg, #ff007f, #ff7f00, #ffeb3b, #00ff87, #00d2ff, #7a00ff, #ff007f);
             --glow-color: rgba(255, 0, 127, 0.35);
             --text-main: #ffffff;
             --text-muted: rgba(255, 255, 255, 0.85);
@@ -29,6 +30,7 @@
             --card-bg: rgba(28, 18, 48, 0.74);
             --card-border: rgba(255, 182, 193, 0.36);
             --rainbow-grad: linear-gradient(135deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #e0c3fc, #ff9a9e);
+            --aura-conic: conic-gradient(from 0deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #e0c3fc, #ff9a9e);
             --glow-color: rgba(255, 154, 158, 0.4);
         }
 
@@ -38,6 +40,7 @@
             --card-bg: rgba(32, 2, 38, 0.78);
             --card-border: rgba(255, 0, 150, 0.42);
             --rainbow-grad: linear-gradient(135deg, #ff007f, #e879f9, #00f0ff, #ff007f);
+            --aura-conic: conic-gradient(from 0deg, #ff007f, #e879f9, #00f0ff, #ff2a85, #ff007f);
             --glow-color: rgba(255, 0, 127, 0.45);
         }
 
@@ -46,6 +49,7 @@
             --card-bg: rgba(26, 20, 9, 0.78);
             --card-border: rgba(255, 215, 0, 0.36);
             --rainbow-grad: linear-gradient(135deg, #ffe066, #f59e0b, #d97706, #ffe066);
+            --aura-conic: conic-gradient(from 0deg, #ffe066, #f59e0b, #fff8dc, #d97706, #ffe066);
             --glow-color: rgba(245, 158, 11, 0.4);
         }
 
@@ -74,19 +78,141 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* ==========================================
+           ÁP LỰC BÁ VƯƠNG TRÊN NỀN (GPU TRANSFORM)
+           ========================================== */
+        .overlord-pressure-layer {
+            position: fixed;
+            inset: -12%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .overlord-wave {
+            position: absolute;
+            left: 50%;
+            top: 38%;
+            width: min(92vw, 960px);
+            aspect-ratio: 1 / 1;
+            margin-left: calc(min(92vw, 960px) / -2);
+            margin-top: calc(min(92vw, 960px) / -2);
+            border-radius: 9999px;
+            border: 1.5px solid rgba(255, 255, 255, 0.14);
+            box-shadow:
+                inset 0 0 60px var(--glow-color),
+                0 0 45px var(--glow-color);
+            will-change: transform, opacity;
+            animation: overlordPressurePulse 6.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+        }
+
+        .overlord-wave--secondary {
+            animation-delay: -3.25s;
+            border-style: dashed;
+            border-color: rgba(255, 255, 255, 0.11);
+        }
+
+        @keyframes overlordPressurePulse {
+            0% {
+                transform: scale(0.42) rotate(0deg);
+                opacity: 0;
+            }
+            22% {
+                opacity: 0.42;
+            }
+            100% {
+                transform: scale(1.42) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* ==========================================
+           VÒNG AURA BÁ KHÍ XOAY QUANH AVATAR
+           ========================================== */
+        .avatar-overlord-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+        }
+
+        .avatar-aura-outer {
+            position: absolute;
+            inset: -6px;
+            border-radius: 26px;
+            background: var(--aura-conic);
+            opacity: 0.88;
+            will-change: transform;
+            animation: auraSpinCW 9s linear infinite;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 3px;
+            pointer-events: none;
+        }
+
+        .avatar-aura-inner {
+            position: absolute;
+            inset: 4px;
+            border-radius: 22px;
+            background: var(--aura-conic);
+            opacity: 0.55;
+            will-change: transform;
+            animation: auraSpinCCW 6s linear infinite;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 2px;
+            pointer-events: none;
+        }
+
+        .avatar-aura-halo {
+            position: absolute;
+            inset: 6px;
+            border-radius: 24px;
+            background: var(--rainbow-grad);
+            background-size: 220% 220%;
+            opacity: 0.28;
+            will-change: transform, opacity;
+            animation: auraBreath 3.6s ease-in-out infinite, rainbowFlow 6s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes auraSpinCW {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes auraSpinCCW {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+
+        @keyframes auraBreath {
+            0%, 100% {
+                transform: scale(0.98);
+                opacity: 0.22;
+            }
+            50% {
+                transform: scale(1.06);
+                opacity: 0.42;
+            }
+        }
+
         .glass-cyber {
             background: var(--card-bg);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border: 1px solid var(--card-border);
-            box-shadow: 0 10px 34px 0 rgba(0, 0, 0, 0.52);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 34px 0 rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .glass-cyber:hover {
             transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.36);
-            box-shadow: 0 14px 40px var(--glow-color);
+            border-color: rgba(255, 255, 255, 0.42);
+            box-shadow: 0 16px 44px var(--glow-color), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .rainbow-neon-border {
@@ -171,6 +297,12 @@
 </head>
 <body class="min-h-screen overflow-x-hidden relative select-none">
 
+    <!-- Lớp sóng áp lực bá vương trên nền -->
+    <div class="overlord-pressure-layer" aria-hidden="true">
+        <div class="overlord-wave"></div>
+        <div class="overlord-wave overlord-wave--secondary"></div>
+    </div>
+
     <!-- Canvas Starfield Dynamic Background -->
     <canvas id="starfield" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
     <!-- Canvas Star Sparkles On Cursor Move -->
@@ -229,8 +361,12 @@
         <!-- HERO SECTION -->
         <section class="mb-14">
             <div class="glass-cyber rounded-2xl p-6 sm:p-10 rainbow-neon-border flex flex-col md:flex-row items-center gap-8 sm:gap-10 relative overflow-hidden border-l-4 border-l-pink-500">
-                <div class="relative shrink-0 group">
-                    <div class="absolute -top-5 -right-4 z-20 w-12 h-12 rounded-xl bg-slate-900/95 border border-yellow-400/60 flex items-center justify-center shadow-xl rotate-12 group-hover:rotate-0 transition-transform duration-300">
+                <div class="relative shrink-0 group avatar-overlord-wrap">
+                    <div class="avatar-aura-halo" aria-hidden="true"></div>
+                    <div class="avatar-aura-outer" aria-hidden="true"></div>
+                    <div class="avatar-aura-inner" aria-hidden="true"></div>
+
+                    <div class="absolute -top-3 -right-2 z-20 w-12 h-12 rounded-xl bg-slate-900/95 border border-yellow-400/60 flex items-center justify-center shadow-xl rotate-12 group-hover:rotate-0 transition-transform duration-300">
                         <span class="text-3xl animate-bounce" style="animation-duration: 3s;">👑</span>
                     </div>
 
