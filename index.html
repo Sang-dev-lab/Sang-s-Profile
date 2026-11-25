@@ -32,12 +32,13 @@
             --glow-color: rgba(255, 154, 158, 0.4);
         }
 
-        [data-theme="cyberpunk-pink"] {
+        [data-theme="cyberpunk-pink"],
+        [data-theme="cyperpink"] {
             --bg-base: #0f0015;
             --card-bg: rgba(32, 2, 38, 0.78);
             --card-border: rgba(255, 0, 150, 0.42);
-            --rainbow-grad: linear-gradient(135deg, #ff007f, #00f0ff, #ffe600, #ff007f);
-            --glow-color: rgba(0, 240, 255, 0.4);
+            --rainbow-grad: linear-gradient(135deg, #ff007f, #e879f9, #00f0ff, #ff007f);
+            --glow-color: rgba(255, 0, 127, 0.45);
         }
 
         [data-theme="gold-cosmic"] {
@@ -143,6 +144,28 @@
         ::-webkit-scrollbar-thumb {
             background: var(--rainbow-grad);
             border-radius: 4px;
+        }
+
+        .theme-btn.active {
+            background: var(--rainbow-grad) !important;
+            background-size: 200% 200% !important;
+            color: #090512 !important;
+            border-color: rgba(255, 255, 255, 0.65) !important;
+            box-shadow: 0 0 18px var(--glow-color);
+            animation: rainbowFlow 4s linear infinite;
+        }
+
+        [data-theme="cyberpunk-pink"] ::-webkit-scrollbar-thumb,
+        [data-theme="cyperpink"] ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff007f, #e879f9, #00f0ff);
+        }
+
+        [data-theme="cyberpunk-pink"] .theme-btn.active,
+        [data-theme="cyperpink"] .theme-btn.active {
+            background: linear-gradient(135deg, #ff007f, #e879f9, #00f0ff) !important;
+            color: #ffffff !important;
+            border-color: #00f0ff !important;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.55), 0 0 28px rgba(0, 240, 255, 0.35);
         }
     </style>
 </head>
@@ -495,7 +518,7 @@
         }, true);
 
         // ==========================================
-        // 2. DAZZLING STAR CLOUD (NO LINE, FAST GRADIENT GLOW, SMOOTH)
+        // 2. DAZZLING STAR CLOUD (THEME-SYNCED & SMOOTH)
         // ==========================================
         const trailCanvas = document.getElementById('cursor-trail-canvas');
         const trailCtx = trailCanvas.getContext('2d', { alpha: true });
@@ -503,12 +526,13 @@
         const themePalettes = {
             'neon-rainbow': ['#ff007f', '#ff7f00', '#ffe600', '#00ff87', '#00e5ff', '#c084fc', '#ffffff'],
             'pastel-dream': ['#ff9a9e', '#fecfef', '#a1c4fd', '#c2e9fb', '#e0c3fc', '#fff0f5', '#ffffff'],
-            'cyberpunk-pink': ['#ff007f', '#00f0ff', '#ffe600', '#ff2a85', '#9d4edd', '#00ffa3', '#ffffff'],
+            'cyberpunk-pink': ['#ff007f', '#ff2a85', '#e879f9', '#00f0ff', '#38bdf8', '#f472b6', '#ffffff'],
+            'cyperpink': ['#ff007f', '#ff2a85', '#e879f9', '#00f0ff', '#38bdf8', '#f472b6', '#ffffff'],
             'gold-cosmic': ['#fff3b0', '#ffd166', '#f59e0b', '#fbbf24', '#fff8dc', '#ff9f1c', '#ffffff']
         };
 
         function getActivePalette() {
-            const theme = document.documentElement.getAttribute('data-theme') || 'neon-rainbow';
+            const theme = (document.documentElement.getAttribute('data-theme') || 'neon-rainbow').toLowerCase();
             return themePalettes[theme] || themePalettes['neon-rainbow'];
         }
 
@@ -530,6 +554,13 @@
         const MAX_CLOUD_STARS = 140;
         let cloudRafId = null;
         let lastCloudSpawn = 0;
+
+        function syncTrailPaletteOnThemeChange() {
+            const palette = getActivePalette();
+            for (let i = 0; i < starCloud.length; i++) {
+                starCloud[i].color = palette[i % palette.length];
+            }
+        }
 
         function startCloudLoop() {
             if (cloudRafId === null) {
@@ -658,6 +689,9 @@
             });
             if (btn) {
                 btn.classList.add('active', 'bg-white/10', 'border-white/25');
+            }
+            if (typeof syncTrailPaletteOnThemeChange === 'function') {
+                syncTrailPaletteOnThemeChange();
             }
         }
 
